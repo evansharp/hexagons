@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Canvas extends Base_controller {
+class Canvas extends MY_controller {
 
 	public function __construct(){
 
