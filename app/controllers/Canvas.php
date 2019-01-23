@@ -7,7 +7,6 @@ class Canvas extends MY_Controller{
 		parent::__construct();
 	}
 	public function index(){
-		
 	}
 
 	public function new(){
