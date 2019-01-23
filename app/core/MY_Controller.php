@@ -17,7 +17,7 @@ class MY_Controller extends CI_Controller {
 		$client = new Google_Client();
 		$client->setAuthConfig( FCPATH . 'client_secret.json');
 		$client->setApplicationName("Hexagons");
-		$client->setRedirectUri( 'http://' . $_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF'] );
+		$client->setRedirectUri( base_url() );
 		$client->setAccessType('offline');
 
 		$client->addScope("https://www.googleapis.com/auth/classroom.profile.photos");
