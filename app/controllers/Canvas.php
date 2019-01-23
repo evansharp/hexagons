@@ -10,8 +10,13 @@ class Canvas extends MY_Controller{
 	}
 
 	public function new(){
+		//not logged-in
+		$template_data['page']  = '';
 
-		$this->load->view('welcome_message');
+		// display data
+		$page_data = [];
+
+    	$this->load->view('template', $template_data);
 	}
 
 }
