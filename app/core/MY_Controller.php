@@ -20,6 +20,9 @@ class MY_Controller extends CI_Controller {
 		$client->setRedirectUri( base_url() );
 		$client->setAccessType('offline');
 
+		$client->addScope("https://www.googleapis.com/auth/userinfo.profile");
+		$client->addScope("https://www.googleapis.com/auth/userinfo.email");
+
 		// Add Access Token to Session
 		if (isset($_GET['code'])) {
   			$_SESSION['id_token_token'] = $client->fetchAccessTokenWithAuthCode($_GET['code']);
