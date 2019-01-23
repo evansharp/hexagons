@@ -13,11 +13,13 @@ class MY_Controller extends CI_Controller {
 		// include the Google API lib
 		include_once APPPATH . "libraries/google-api-php-client-2.2.2/vendor/autoload.php";
 
+		$redirect_uri = base_url();
+
 		// Create Client Request to access Google API
 		$client = new Google_Client();
 		$client->setAuthConfig( FCPATH . 'client_secret.json');
 		$client->setApplicationName("Hexagons");
-		$client->setRedirectUri( base_url() );
+		$client->setRedirectUri( $redirect_uri );
 		$client->setAccessType('offline');
 
 		$client->addScope("https://www.googleapis.com/auth/userinfo.profile");
