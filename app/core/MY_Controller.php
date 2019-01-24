@@ -36,8 +36,9 @@ class MY_Controller extends CI_Controller {
 		if ( !empty($_SESSION['id_token_token']) && isset($_SESSION['id_token_token']['id_token']) ) {
   			$client->setAccessToken( $_SESSION['id_token_token'] );
 
-			$oauth = new Google_Oauth2Service($client);
-			$_SESSION['googleProfile'] = $oauth->userinfo->get();
+			$OAuthService = new Google_Service_Oauth2( $client );
+			
+			$_SESSION['googleProfile'] = $OAuthService->userinfo->get();
 
 		} else {
   			$_SESSION['authUrl'] = $client->createAuthUrl();
