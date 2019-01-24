@@ -13,6 +13,7 @@
     </head>
 
     <body>
+        <?php //var_dump($_SESSION['googleProfile']); ?>
         <nav>
             <div class="nav-wrapper">
                 <a href="<?php echo base_url();?>" class="homelink">
@@ -22,9 +23,11 @@
 
 
                     <ul class="right hide-on-med-and-down">
-                        <li><a href="canvas/save">Save</a></li>
-
                         <?php if( $_SESSION['logged_in'] ): ?>
+                        <li><a href="" id="save_button">Save</a></li>
+                        <li><a href="#!">Delete</a></li>
+                        <li><a href="#!">Duplicate</a></li>
+
                         <!-- Dropdown Trigger -->
                         <li>
                             <ul id="usermenu" class="dropdown-content">
@@ -73,6 +76,11 @@
         <script src="//code.jquery.com/jquery-2.1.4.min.js" type="text/javascript"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/1.7.22/fabric.min.js"></script>
+        <script type="text/javascript">
+            var baseurl = "<?php echo base_url();?>";
+            var userid = "<?php echo $_SESSION['user_id']; ?>";
+            var 
+        </script>
         <script src="<?php echo base_url();?>assets/js/ui.js?v=<?php echo time();?>" type="text/javascript"></script>
     </body>
 </html>

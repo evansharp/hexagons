@@ -1,7 +1,4 @@
 
-
-
-
 function loading(){
     var i = M.Modal.getInstance( document.querySelector('#loader_modal') );
     i.open();
@@ -57,6 +54,38 @@ $(document).ready(function(){
     //     opacity: 0.8
     //   });
     // });
+
+    //save button
+    $('#save_button').click(function(e){
+        e.preventDefault();
+        var canvasid = window.location.pathname.split('?')[0].split('/').filter(function (i) { return i !== ""}).slice(-1)[0];
+
+        if( canvasid == "hexagons"){
+            canvasid = '';
+        }
+
+        var data = {
+            'user_id'       :   userid,
+            'canvas_id'     :   canvasid,
+            'canvas_data'   :   JSON.stringify(canvas)
+        };
+        console.log( data );
+
+        $.ajax({
+            url: baseurl + 'save',
+            method: 'post',
+            data: data,
+            success:function(res, status, xhr){
+                var obj = JSON.parse( res );
+                console.log( obj );
+                window.history.replaceState(null, "Formation Saved!", obj.id);
+            },
+            error: function(res, status, xhr){
+                console.log(status);
+            }
+
+        });
+    });
 
     //add hex button
     $('#add_hex').click(function(){

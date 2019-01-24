@@ -42,6 +42,15 @@ class MY_Controller extends CI_Controller {
 			$_SESSION['googleProfile'] = $OAuthService->userinfo->get();
 			$_SESSION['logged_in'] = true;
 
+			$um = new User_model();
+			$user_id = $um->get_user( $_SESSION['googleProfile']['email'] );
+
+			if( !$user_id ){
+				$_SESSION['user_id'] = $um->new_user( $_SESSION['googleProfile']['email'] );
+			}else{
+				$_SESSION['user_id'] = $user_id;
+			}
+
 		} else {
   			$_SESSION['authUrl'] = $client->createAuthUrl();
 		}

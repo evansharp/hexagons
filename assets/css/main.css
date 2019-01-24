@@ -9,12 +9,13 @@ nav{
 
 nav li a{
     text-transform: uppercase;
+    color: #333;
 }
 .dropdown-content{
     width: auto !important;
 }
 .dropdown-content li>a, .dropdown-content li>span{
-    color: #75E547;
+    color: #333;
 }
 
 nav img.user_img {
