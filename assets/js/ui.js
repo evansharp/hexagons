@@ -20,25 +20,26 @@ $(document).ready(function(){
         height:	window.innerHeight-80,
         width: window.innerWidth-10
     });
-    var grid = 120;
-    var grids = 104;
-
-	var gridLen = canvas.width / grid;
-    var gridhieght = canvas.height / grids;
-
-    for (var a = 0; a < gridhieght; a++){
-        for (var i = 0; i < gridLen; i++) {
-          var path = new fabric.Path('M0 51.96152422706631L30 0L90 0L120 51.96152422706631L90 103.92304845413263L30 103.92304845413263Z');
-          canvas.add(path);
-          path.set({
-              left: i * grid,
-              top: a * grids,
-              stroke: '#ebebeb',
-              strokeWidth: 1,
-              selectable: false
-          });
-        }
-    }
+    // var grid = 120;
+    // var grids = 104;
+    //
+	// var gridLen = canvas.width / grid;
+    // var gridhieght = canvas.height / grids;
+    //
+    // for (var a = 0; a < gridhieght; a++){
+    //     for (var i = 0; i < gridLen; i++) {
+    //       var path = new fabric.Path('M0 51.96152422706631L30 0L90 0L120 51.96152422706631L90 103.92304845413263L30 103.92304845413263Z');
+    //       canvas.add(path);
+    //       path.set({
+    //           left: i * grid,
+    //           top: a * grids,
+    //           stroke: '#ebebeb',
+    //           fill: 0,
+    //           strokeWidth: 1,
+    //           selectable: false
+    //       });
+    //     }
+    // }
 
 
     $(window).resize(function(){
@@ -49,13 +50,13 @@ $(document).ready(function(){
 
 
 
-    canvas.on('object:moving', function(options) {
-      options.target.set({
-        left: Math.round(options.target.left / grid) * grid,
-        top: Math.round(options.target.top / grid) * grid,
-        opacity: 0.8
-      });
-    });
+    // canvas.on('object:moving', function(options) {
+    //   options.target.set({
+    //     left: Math.round(options.target.left / grid) * grid,
+    //     top: Math.round(options.target.top / grid) * grid,
+    //     opacity: 0.8
+    //   });
+    // });
 
     //add hex button
     $('#add_hex').click(function(){
