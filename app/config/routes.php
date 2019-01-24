@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-$route['logout'] = 'canvas/logout';
+$route['logout'] = 'auth/logout';
 
 
 $route['default_controller'] = 'canvas/new';

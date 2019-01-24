@@ -45,15 +45,9 @@ class MY_Controller extends CI_Controller {
 		} else {
   			$_SESSION['authUrl'] = $client->createAuthUrl();
 		}
+
 	}
 
 	public function index() {
-	}
-
-	public function logout(){
-		unset($_SESSION['access_token']);
-		unset($_SESSION['googleProfile']);
-		unset($_SESSION['logged_in']);
-		redirect(base_url());
 	}
 }

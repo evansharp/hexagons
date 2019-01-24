@@ -13,28 +13,49 @@
     </head>
 
     <body>
-        <header id="header" class="z-depth-2">
-            <a href="<?php echo base_url();?>" class="homelink">
-                <img src="<?php echo base_url();?>assets/img/logo.svg" alt="logo" id="title_logo">
-                <h1>Hexagons</h1>
-            </a>
+        <nav>
+            <div class="nav-wrapper">
+                <a href="<?php echo base_url();?>" class="homelink">
+                    <img src="<?php echo base_url();?>assets/img/logo.svg" alt="logo" id="title_logo">
+                    <h1>Hexagons</h1>
+                </a>
 
-            <?php if( $_SESSION['logged_in'] ): ?>
-				<img src="<?php echo $_SESSION['googleProfile']['photoUrl']; ?>" alt="" class="user_img">
-				<a href="<?php echo base_url();?>logout" id="logout_button" class="waves-effect btn-flat">
-                    Logout
-                </a>
-        	<?php else: ?>
-        		<a href="<?php echo $_SESSION['authUrl']; ?>" id="login_button" class="waves-effect btn-flat">
-                    <i class="small material-icons left">account_circle</i> Login
-                </a>
-        	<?php endif; ?>
+
+                    <ul class="right hide-on-med-and-down">
+                        <li><a href="canvas/save">Save</a></li>
+
+                        <?php if( $_SESSION['logged_in'] ): ?>
+                        <!-- Dropdown Trigger -->
+                        <li>
+                            <ul id="usermenu" class="dropdown-content">
+                                <li><a href="#!">View Saved</a></li>
+                                <li class="divider"></li>
+                                <li><a href="<?php echo base_url();?>logout">Logout</a></li>
+                            </ul>
+                            <a class="dropdown-trigger" href="#!" data-target="usermenu">
+                                <div class="valign-wrapper">
+                                    <img src="<?php echo $_SESSION['googleProfile']['picture']; ?>" alt="" class="user_img">
+                                    <?php echo $_SESSION['googleProfile']['givenName']; ?>
+                                </div>
+                            </a>
+                        </li>
+                        <?php else: ?>
+
+                            <li><a href="<?php echo $_SESSION['authUrl']; ?>">
+                                <i class="small material-icons left">account_circle</i> Login
+                            </a></li>
+                        <?php endif; ?>
+                    </ul>
+            </div>
+        </nav>
+
+
+
 
         </header>
 
         <div class="row">
-
-            <div class="col s10" id="content-wrapper">
+            <div class="col s12">
                 <?php echo $page; ?>
             </div>
 
@@ -51,6 +72,7 @@
 
         <script src="//code.jquery.com/jquery-2.1.4.min.js" type="text/javascript"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-        <script src="<?php echo base_url();?>assets/js/ui.js" type="text/javascript"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/1.7.22/fabric.min.js"></script>
+        <script src="<?php echo base_url();?>assets/js/ui.js?v=<?php echo time();?>" type="text/javascript"></script>
     </body>
 </html>
