@@ -36,7 +36,7 @@ class MY_Controller extends CI_Controller {
 		if ( !empty($_SESSION['id_token_token']) && isset($_SESSION['id_token_token']['id_token']) ) {
 			$client->setAccessToken( $_SESSION['id_token_token'] );
 
-		
+
 			$OAuthService = new Google_Service_Oauth2( $client );
 
 			$_SESSION['googleProfile'] = $OAuthService->userinfo->get();
@@ -48,5 +48,12 @@ class MY_Controller extends CI_Controller {
 	}
 
 	public function index() {
+	}
+
+	public function logout(){
+		unset($_SESSION['access_token']);
+		unset($_SESSION['googleProfile']);
+		unset($_SESSION['logged_in']);
+		redirect(base_url());
 	}
 }
