@@ -101,4 +101,7 @@ $(document).ready(function(){
         canvas.renderAll();
     });
 
+    if(canvasData){
+        canvas.loadFromJSON(canvasData);
+    }
 });

@@ -79,7 +79,7 @@
         <script type="text/javascript">
             var baseurl = "<?php echo base_url();?>";
             var userid = "<?php echo $_SESSION['user_id']; ?>";
-            var 
+            var canvasData = "<?php echo $_SESSION['canvas'];";
         </script>
         <script src="<?php echo base_url();?>assets/js/ui.js?v=<?php echo time();?>" type="text/javascript"></script>
     </body>
