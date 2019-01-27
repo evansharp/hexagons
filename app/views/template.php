@@ -68,7 +68,7 @@
 
         <div id="loader_modal" class="modal">
             <div class="modal-content">
-                <img src="<?php echo base_url();?>assets/img/prism_loader.gif" alt="">
+                <!--<img src="<?php echo base_url();?>assets/img/loader.gif" alt="">-->
                 <p>Loading...</p>
             </div>
         </div>
@@ -78,8 +78,20 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/1.7.22/fabric.min.js"></script>
         <script type="text/javascript">
             var baseurl = "<?php echo base_url();?>";
+
+            <?php if( isset( $_SESSION['user_id'] ) ):?>
             var userid = "<?php echo $_SESSION['user_id']; ?>";
-            var canvasData = "<?php echo $_SESSION['canvas'];";
+            <?php else: ?>
+            var userid = false;
+            <?php endif; ?>
+
+            <?php
+            if( isset( $canvas ) ):?>
+
+            var canvasData = '<?php echo $canvas;?>';
+            <?php else:?>
+            var canvasData = false;
+            <?php endif;?>
         </script>
         <script src="<?php echo base_url();?>assets/js/ui.js?v=<?php echo time();?>" type="text/javascript"></script>
     </body>

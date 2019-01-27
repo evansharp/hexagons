@@ -7,13 +7,17 @@ class Canvas_model extends MY_Model{
     }
 
     public function get_canvas( $canvas_id ){
+
         $this->db->select( '*' );
-        $this->db->where( ['canvas_id' => $canvas_id] );
-        $this->db->limit(1);
+        $this->db->where( 'canvas_id', $canvas_id );
+        $this->db->limit( 1 );
         $q = $this->db->get( $this->data_table );
+
         if($q->num_rows() > 0){
-            $r =  $q->result_array();
+            $r = $q->result_array();
             return $r[0];
+        }else{
+            return false;
         }
     }
 
@@ -22,8 +26,8 @@ class Canvas_model extends MY_Model{
 
         if( $canvas_id == '' ){
             //this is a new save, so generate an id
-            $token = openssl_random_pseudo_bytes( 40 );
-            $canvas_id = base64_encode( $token );
+
+            $canvas_id = substr( bin2hex( random_bytes( 40 ) ), 0, 39); // make a psudeorandom string for 40 chars
             $rt['id'] = $canvas_id;
 
         }else{

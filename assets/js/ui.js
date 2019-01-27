@@ -17,6 +17,22 @@ $(document).ready(function(){
         height:	window.innerHeight-80,
         width: window.innerWidth-10
     });
+
+    if( canvasData ){
+        //process canvas objects to add settings not exported properly
+        var rough_canvas = JSON.parse( canvasData );
+        $.each(rough_canvas.objects, function(i, canvas_item){
+            canvas_item.hasBorders = false;
+            canvas_item.hasControls = false;
+            canvas_item.hasRotatingPoint = false;
+        });
+        console.log(rough_canvas);
+        //stupid Fabric JS won't import an object...
+        var fine_canvas = JSON.stringify( rough_canvas );
+
+        canvas.loadFromJSON( fine_canvas );
+    }
+
     // var grid = 120;
     // var grids = 104;
     //
@@ -69,7 +85,6 @@ $(document).ready(function(){
             'canvas_id'     :   canvasid,
             'canvas_data'   :   JSON.stringify(canvas)
         };
-        console.log( data );
 
         $.ajax({
             url: baseurl + 'save',
@@ -78,7 +93,12 @@ $(document).ready(function(){
             success:function(res, status, xhr){
                 var obj = JSON.parse( res );
                 console.log( obj );
-                window.history.replaceState(null, "Formation Saved!", obj.id);
+
+                //append new id to url if a new save
+                var url = window.location.pathname;
+                if( !url.includes("formation") ){
+                    window.history.replaceState(null, "Formation Saved!", 'formation/'+obj.id);
+                }
             },
             error: function(res, status, xhr){
                 console.log(status);
@@ -99,9 +119,10 @@ $(document).ready(function(){
             hasBorders: false
         });
         canvas.renderAll();
+        var controlGroup = '<div class="hex_controls">
+                                <i class="material-icons">delete</i>
+                                <i class="material-icons">text_fields</i>';
+        $(controlGroup).append('#controls');
     });
 
-    if(canvasData){
-        canvas.loadFromJSON(canvasData);
-    }
 });
