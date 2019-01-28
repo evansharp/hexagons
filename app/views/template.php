@@ -9,6 +9,7 @@
 
         <link href="https://fonts.googleapis.com/icon?family=Lato:300|Roboto:100,300,500|Material+Icons" rel="stylesheet">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+        <link href="<?php echo base_url();?>assets/css/jquery.colorwheel.css" rel="stylesheet" type="text/css" />
         <link href="<?php echo base_url();?>assets/css/main.css?v=<?php echo time();?>" rel="stylesheet" type="text/css" />
     </head>
 
@@ -76,6 +77,7 @@
         <script src="//code.jquery.com/jquery-2.1.4.min.js" type="text/javascript"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/1.7.22/fabric.min.js"></script>
+        <script src="<?php echo base_url();?>assets/js/jquery.colorwheel.js"></script>
         <script type="text/javascript">
             var baseurl = "<?php echo base_url();?>";
 

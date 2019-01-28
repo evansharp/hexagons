@@ -119,10 +119,23 @@ $(document).ready(function(){
             hasBorders: false
         });
         canvas.renderAll();
-        var controlGroup = '<div class="hex_controls">
-                                <i class="material-icons">delete</i>
-                                <i class="material-icons">text_fields</i>';
-        $(controlGroup).append('#controls');
+        var controlGroup = '<div class="hex_controls">' +
+                                '<div class="colorwheel"></div>'+
+                                '<a href="" class="hex_control colorwheel_handle"><i class="material-icons">color_lens</i></a>'+
+                                '<a href="" class="hex_control"><i class="material-icons">delete</i></a>'+
+                                '<a href="" class="hex_control"><i class="material-icons">text_fields</i></a>';
+        $('#controls').append( controlGroup );
+        $('.colorwheel').colorwheel();
+
     });
+    $('.colorwheel_handle').click(function(e){
+        e.preventDefault();
+        $(this).prev('.colorwheel').show();
+    });
+    $('.colorwheel').click(function(){
+        alert( $(this).colorwheel('value') );
+        $(this).hide();
+    });
+
 
 });
