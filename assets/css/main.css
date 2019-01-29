@@ -66,9 +66,17 @@ h4{ font-size: 1.1rem; font-weight: 500;}
 	display: none;
 	width: 150px;
 	height: 150px;
+
+    position: absolute;
+    top: -150px;
+    left: -75px;
 }
 .colorwheel-value{
     border: 0 !important;
+    width: 40px !important;
+}
+.hex_controls{
+    position: absolute;
 }
 .hex_control{
     color: #000;

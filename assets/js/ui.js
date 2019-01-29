@@ -1,11 +1,35 @@
 
+
 function loading(){
     var i = M.Modal.getInstance( document.querySelector('#loader_modal') );
     i.open();
 }
 
-$(document).ready(function(){
+var hex_id_counter = 0;
 
+fabric.Canvas.prototype.getAbsoluteCoords = function(object) {
+    return {
+      left: object.left + this._offset.left,
+      top: object.top + this._offset.top
+  };
+}
+
+function positionCtl( canvas, obj, ctls ){
+    var absCoords = canvas.getAbsoluteCoords( obj );
+    ctls.style.left = (absCoords.left + 24) + 'px';
+    ctls.style.top = (absCoords.top + 1) + 'px';
+}
+
+function getControlGroupString(id){
+    return '<div class="hex_controls" data-hex-id="' + id + '">' +
+                '<div class="colorwheel"></div>'+
+                '<a href="" class="hex_control colorwheel_handle"><i class="material-icons">color_lens</i></a>'+
+                '<a href="" class="hex_control"><i class="material-icons">delete</i></a>'+
+                '<a href="" class="hex_control"><i class="material-icons">text_fields</i></a>'+
+            '</div>';
+}
+
+$(document).ready(function(){
     //init mterialize components
     $('.dropdown-trigger').dropdown();
     $('.fixed-action-btn').floatingActionButton();
@@ -14,8 +38,8 @@ $(document).ready(function(){
     $('.modal').modal();
 
     var canvas = new fabric.Canvas('c',{
-        height:	window.innerHeight-80,
-        width: window.innerWidth-10
+        height:	window.innerHeight - 90,
+        width: window.innerWidth - 20
     });
 
     if( canvasData ){
@@ -25,12 +49,17 @@ $(document).ready(function(){
             canvas_item.hasBorders = false;
             canvas_item.hasControls = false;
             canvas_item.hasRotatingPoint = false;
+            canvas_item.id = hex_id_counter; //restore an idea for control group
+            $('#controls').append( getControlGroupString( hex_id_counter) ); //create control group
+            hex_id_counter += 1; //increment counter for the next hexagon
         });
         console.log(rough_canvas);
         //stupid Fabric JS won't import an object...
         var fine_canvas = JSON.stringify( rough_canvas );
-
         canvas.loadFromJSON( fine_canvas );
+
+        // init just-added color wheel controls
+        $('.colorwheel').colorwheel();
     }
 
     // var grid = 120;
@@ -56,8 +85,8 @@ $(document).ready(function(){
 
 
     $(window).resize(function(){
-        canvas.setWidth( $(window).width() - 10);
-        canvas.setHeight( $(window).height()-80 );
+        canvas.setWidth( $(window).width() - 20);
+        canvas.setHeight( $(window).height() - 90 );
         canvas.calcOffset();
     });
 
@@ -116,26 +145,33 @@ $(document).ready(function(){
             top: 0,
             fill: 'red',
             hasControls: false,
-            hasBorders: false
+            hasBorders: false,
+            id: hex_id_counter
         });
+
         canvas.renderAll();
-        var controlGroup = '<div class="hex_controls">' +
-                                '<div class="colorwheel"></div>'+
-                                '<a href="" class="hex_control colorwheel_handle"><i class="material-icons">color_lens</i></a>'+
-                                '<a href="" class="hex_control"><i class="material-icons">delete</i></a>'+
-                                '<a href="" class="hex_control"><i class="material-icons">text_fields</i></a>';
-        $('#controls').append( controlGroup );
+
+        var new_controls = $( getControlGroupString( hex_id_counter) ).appendTo('#controls').get(0);
         $('.colorwheel').colorwheel();
 
+        path.on('moving', function() { positionCtl( canvas, path, new_controls) });
+
+        positionCtl( canvas, path, new_controls);
+
+        hex_id_counter += 1; //increment for next new hexagon
+
+        $('.colorwheel_handle').click(function(e){
+            e.preventDefault();
+            $(this).prev('.colorwheel').fadeToggle(100);
+        });
+        $('.colorwheel').click(function(){
+            console.log( '#' + $(this).colorwheel('value') );
+            $(this).hide();
+        });
     });
-    $('.colorwheel_handle').click(function(e){
-        e.preventDefault();
-        $(this).prev('.colorwheel').show();
-    });
-    $('.colorwheel').click(function(){
-        alert( $(this).colorwheel('value') );
-        $(this).hide();
-    });
+
+
+
 
 
 });
