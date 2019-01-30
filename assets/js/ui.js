@@ -1,10 +1,4 @@
 var canvas = {};
-
-function loading(){
-    var i = M.Modal.getInstance( document.querySelector('#loader_modal') );
-    i.open();
-}
-
 var hex_id_counter = 0;
 
 fabric.Canvas.prototype.getAbsoluteCoords = function(object) {
@@ -57,9 +51,18 @@ function attachListeners(){
         e.preventDefault();
         var id = $(this).parent('.hex_controls').attr('data-hex-id');
 
-        var html = '<input type="text" class="" data-hex-id=>';
+        var html = '<input type="text" class="hex_label" data-hex-id="' + id + '" >';
         $( html ).appendTo('#texts');
+
     });
+
+    // canvas.on('mouse:over', function(e) {
+    //     $('.hex_controls[data-hex-id="'+e.target.id+'"]').show();
+    //
+    // });
+    // canvas.on('mouse:out', function(e) {
+    //     $('.hex_controls[data-hex-id="'+e.target.id+'"]').hide();
+    // });
 }
 
 function positionCtl( canvas, obj, ctls ){

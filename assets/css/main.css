@@ -76,7 +76,9 @@ h4{ font-size: 1.1rem; font-weight: 500;}
 }
 .hex_controls{
     position: absolute;
+    
 }
+
 .hex_control{
     color: #000;
 }

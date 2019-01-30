@@ -53,25 +53,11 @@
             </div>
         </nav>
 
-
-
-
-        </header>
-
         <div class="row">
             <div class="col s12">
                 <?php echo $page; ?>
             </div>
 
-        </div>
-
-        <footer id="footer"></footer>
-
-        <div id="loader_modal" class="modal">
-            <div class="modal-content">
-                <!--<img src="<?php echo base_url();?>assets/img/loader.gif" alt="">-->
-                <p>Loading...</p>
-            </div>
         </div>
 
         <script src="//code.jquery.com/jquery-2.1.4.min.js" type="text/javascript"></script>
