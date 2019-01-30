@@ -72,8 +72,7 @@ h4{ font-size: 1.1rem; font-weight: 500;}
     left: -75px;
 }
 .colorwheel-value{
-    border: 0 !important;
-    width: 40px !important;
+    display: none;
 }
 .hex_controls{
     position: absolute;
