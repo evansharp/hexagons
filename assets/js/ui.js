@@ -47,12 +47,20 @@ function attachListeners(){
         controls.remove();
     });
 
+    //click labelmaker
     $('.labelmaker').click(function(e){
         e.preventDefault();
         var id = $(this).parent('.hex_controls').attr('data-hex-id');
 
-        var html = '<input type="text" class="hex_label" data-hex-id="' + id + '" >';
-        $( html ).appendTo('#texts');
+        var new_text = $( '<input type="text" class="hex_label" data-hex-id="' + id + '" >' ).appendTo('#texts').get(0);
+        var hex = canvas.getObjects().filter(function(o) {
+            if (o.id == id ) {
+                return o;
+            }
+        });
+
+        hex[0].on('moving', function() { positionText( canvas, hex[0], new_text) });
+        positionText( canvas, hex[0], new_text);
 
     });
 
@@ -73,8 +81,8 @@ function positionCtl( canvas, obj, ctls ){
 
 function positionText( canvas, obj, text ){
     var absCoords = canvas.getAbsoluteCoords( obj );
-    ctls.style.left = (absCoords.left) + 'px';
-    ctls.style.top = (absCoords.top + 20) + 'px';
+    text.style.left = (absCoords.left) + 'px';
+    text.style.top = (absCoords.top + 30) + 'px';
 }
 
 function getControlGroupString(id){
