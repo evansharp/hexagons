@@ -1,3 +1,5 @@
+<?php $timeAgo = new Westsworld\TimeAgo(); ?>
+
 <div class="container">
     <div class="row">
         <h2> Saved Haxagon Formations </h2>
@@ -19,8 +21,8 @@
                 <?php foreach($canvas_list as $canvas): ?>
                     <tr>
                         <td><?php echo $canvas['title'];?></td>
-                        <td><?php echo $canvas['modified'];?></td>
-                        <td><?php echo $canvas['created'];?></td>
+                        <td><?php echo $timeAgo->inWordsFromStrings( $canvas['modified'] );?></td>
+                        <td><?php echo $timeAgo->inWordsFromStrings( $canvas['created'] );?></td>
                         <td></td>
                     </tr>
                 <?php endforeach;?>

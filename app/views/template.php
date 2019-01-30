@@ -25,11 +25,11 @@
 
                     <ul class="right hide-on-med-and-down">
                         <?php if( $_SESSION['logged_in'] ): ?>
-                            <?php if( !isset($hide_save) && !$hide_save ): ?>
+                            <?php if( !isset($hide_save) ): ?>
                                 <li><a href="" id="save_button">Save</a></li>
                                 <li><a href="#!">Delete</a></li>
                                 <li><a href="#!">Duplicate</a></li>
-                            <?php elseif(isset($user_area) && $user_area): ?>
+                            <?php elseif( isset($user_area) ): ?>
                                 <li><a href="<?php echo base_url();?>">New Formation</a></li>
                             <?php endif; ?>
 
