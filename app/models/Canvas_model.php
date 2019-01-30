@@ -7,7 +7,6 @@ class Canvas_model extends MY_Model{
     }
 
     public function get_canvas( $canvas_id ){
-
         $this->db->select( '*' );
         $this->db->where( 'canvas_id', $canvas_id );
         $this->db->limit( 1 );
@@ -57,6 +56,20 @@ class Canvas_model extends MY_Model{
             $rt['id'] = $canvas_id;
             $rt['success'] = false;
             return $rt;
+        }
+    }
+
+    public function get_all_canvases_by_user( $user_id ){
+        $this->db->select( '*' );
+        $this->db->where( 'user_id', $user_id );
+        $q = $this->db->get( $this->data_table );
+
+        if( $q->num_rows() > 0 ){
+            return $q->result_array();
+        }elseif( $q->num_rows() == 0 ){
+            return [];
+        }else{
+            return false;
         }
     }
 

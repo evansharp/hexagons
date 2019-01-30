@@ -36,14 +36,11 @@ class Canvas extends MY_Controller{
 		$cm = new Canvas_model();
 		$result = $cm->get_canvas( $canvas_id );
 
-		//die(var_dump($result));
-
-		$page_data = [];
-
 		if( $result ){
 			$template_data['canvas'] = $result['canvas'];
 		}
 
+		$page_data = [];
 		$template_data['page']  = $this->load->view('canvas', $page_data ,TRUE);
 
     	$this->load->view('template', $template_data);

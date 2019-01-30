@@ -5,7 +5,10 @@ $route['logout'] = 'auth/logout';
 
 $route['save'] = 'canvas/save';
 
+$route['saved'] = 'user/canvas_list';
+
 $route['formation/(:any)'] = 'canvas/display/$1';
+
 
 $route['default_controller'] = 'canvas/new';
 $route['404_override'] = '';

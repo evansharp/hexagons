@@ -25,9 +25,13 @@
 
                     <ul class="right hide-on-med-and-down">
                         <?php if( $_SESSION['logged_in'] ): ?>
-                        <li><a href="" id="save_button">Save</a></li>
-                        <li><a href="#!">Delete</a></li>
-                        <li><a href="#!">Duplicate</a></li>
+                            <?php if( !isset($hide_save) && !$hide_save ): ?>
+                                <li><a href="" id="save_button">Save</a></li>
+                                <li><a href="#!">Delete</a></li>
+                                <li><a href="#!">Duplicate</a></li>
+                            <?php elseif(isset($user_area) && $user_area): ?>
+                                <li><a href="<?php echo base_url();?>">New Formation</a></li>
+                            <?php endif; ?>
 
                         <!-- Dropdown Trigger -->
                         <li>
@@ -57,7 +61,6 @@
             <div class="col s12">
                 <?php echo $page; ?>
             </div>
-
         </div>
 
         <script src="//code.jquery.com/jquery-2.1.4.min.js" type="text/javascript"></script>
