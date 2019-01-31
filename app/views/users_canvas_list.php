@@ -12,7 +12,7 @@
                   <th>Title</th>
                   <th>Last Modified</th>
                   <th>Created</th>
-                  <th>Actions</th>
+                  <th></th>
               </tr>
             </thead>
 

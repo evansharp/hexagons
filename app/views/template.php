@@ -27,8 +27,8 @@
                         <?php if( $_SESSION['logged_in'] ): ?>
                             <?php if( !isset($hide_save) ): ?>
                                 <li><a href="" id="save_button">Save</a></li>
-                                <li><a href="#!">Delete</a></li>
-                                <li><a href="#!">Duplicate</a></li>
+                                <li><a href="" id="delete_button">Delete</a></li>
+                                <li><a href="" id="duplicate_button">Duplicate</a></li>
                             <?php elseif( isset($user_area) ): ?>
                                 <li><a href="<?php echo base_url();?>">New Formation</a></li>
                             <?php endif; ?>
@@ -71,18 +71,22 @@
             var baseurl = "<?php echo base_url();?>";
 
             <?php if( isset( $_SESSION['user_id'] ) ):?>
-            var userid = "<?php echo $_SESSION['user_id']; ?>";
+                var userid = "<?php echo $_SESSION['user_id']; ?>";
             <?php else: ?>
-            var userid = false;
+                var userid = false;
             <?php endif; ?>
 
             <?php
             if( isset( $canvas ) ):?>
-
-            var canvasData = '<?php echo $canvas;?>';
+                var canvasData = '<?php echo $canvas;?>';
             <?php else:?>
-            var canvasData = false;
+                var canvasData = false;
             <?php endif;?>
+
+            <?php if( $this->session->flashdata('flash') ): ?>
+                M.toast({html: "<?php echo $this->session->flashdata('flash');?>" });
+            <?php endif; ?>
+
         </script>
         <?php if( isset( $user_area ) ):?>
             <script src="<?php echo base_url();?>assets/js/admin.js?v=<?php echo time();?>" type="text/javascript"></script>

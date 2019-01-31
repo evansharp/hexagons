@@ -39,7 +39,11 @@ function attachListeners(){
 
         var controls = $(this).parent('.hex_controls');
         var hex_id = controls.attr('data-hex-id');
-        var label = $('.hex_label').;
+        var label = $('.hex_label').filter(function(i,e){
+            if( $(this).attr('data-hex-id') == hex_id ){
+                return this;
+            }
+        });
         var hex = canvas.getObjects().filter(function(o) {
             if (o.id == hex_id ) {
                 return o;
@@ -48,7 +52,7 @@ function attachListeners(){
 
         hex[0].remove();
         controls.remove();
-        label.remove();
+        $(label).remove();
     });
 
     //click labelmaker
@@ -212,6 +216,73 @@ $(document).ready(function(){
                 M.toast({html: obj.msg });
             }
 
+        });
+    });
+
+    //delete button
+    $('#delete_button').click(function(e){
+        e.preventDefault();
+        var canvasid = window.location.pathname.split('?')[0].split('/').filter(function (i) { return i !== ""}).slice(-1)[0];
+
+        if( canvasid == "hexagons"){
+            return false;
+        }
+
+        var data = {
+            'user_id'       :   userid,
+            'canvas_id'     :   canvasid
+        };
+
+        $.ajax({
+            url: baseurl + 'delete',
+            method: 'post',
+            data: data,
+            success:function(res, status, xhr){
+                var obj = JSON.parse( res );
+                if( obj.success ){
+                    window.location.replace(baseurl);
+                }
+            },
+            error: function(res, status, xhr){
+                var obj = JSON.parse( res );
+                console.log( obj );
+                M.toast({html: obj.msg });
+            }
+        });
+    });
+
+
+    //duplicate button
+    $('#duplicate_button').click(function(e){
+        e.preventDefault();
+        var canvasid = window.location.pathname.split('?')[0].split('/').filter(function (i) { return i !== ""}).slice(-1)[0];
+
+        if( canvasid == "hexagons"){
+            return false;
+        }
+
+        var data = {
+            'user_id'       :   userid,
+            'canvas_id'     :   canvasid,
+            'canvas_data'   :   JSON.stringify(canvas)
+        };
+
+        $.ajax({
+            url: baseurl + 'duplicate',
+            method: 'post',
+            data: data,
+            success:function(res, status, xhr){
+                var obj = JSON.parse( res );
+                if( obj.success ){
+                    //flashdata for ui notfication set in Canvas controller
+                    window.location.replace( baseurl + 'formation/' + obj.id );
+                }
+            },
+            error: function(res, status, xhr){
+                var obj = JSON.parse( res );
+                console.log( obj );
+                M.toast({html: obj.msg });
+            }
         });
     });
 

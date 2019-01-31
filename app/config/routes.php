@@ -5,6 +5,7 @@ $route['logout'] = 'auth/logout';
 
 $route['save'] = 'canvas/save';
 $route['delete'] = 'canvas/delete';
+$route['duplicate'] = 'canvas/duplicate';
 
 $route['saved'] = 'user/canvas_list';
 
