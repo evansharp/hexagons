@@ -36,15 +36,19 @@ function attachListeners(){
     //when a trashcan is kicked...
     $('.trashcan').click(function(e){
         e.preventDefault();
+
         var controls = $(this).parent('.hex_controls');
+        var hex_id = controls.attr('data-hex-id');
+        var label = $('.hex_label').;
         var hex = canvas.getObjects().filter(function(o) {
-            if (o.id == controls.attr('data-hex-id') ) {
+            if (o.id == hex_id ) {
                 return o;
             }
         });
 
         hex[0].remove();
         controls.remove();
+        label.remove();
     });
 
     //click labelmaker
@@ -100,7 +104,6 @@ $(document).ready(function(){
     $('.fixed-action-btn').floatingActionButton();
     $('select').formSelect();
     $('.tooltipped').tooltip();
-    $('.modal').modal();
 
     canvas = new fabric.Canvas('c',{
         height:	window.innerHeight - 90,
@@ -200,9 +203,13 @@ $(document).ready(function(){
                 if( !url.includes("formation") ){
                     window.history.replaceState(null, "Formation Saved!", 'formation/'+obj.id);
                 }
+
+                M.toast({html: obj.msg });
             },
             error: function(res, status, xhr){
-                console.log(status);
+                var obj = JSON.parse( res );
+                console.log( obj );
+                M.toast({html: obj.msg });
             }
 
         });
@@ -231,9 +238,4 @@ $(document).ready(function(){
         attachListeners();
         hex_id_counter += 1; //increment for next new hexagon
     });
-
-
-
-
-
 });

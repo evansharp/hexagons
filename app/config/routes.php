@@ -4,6 +4,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 $route['logout'] = 'auth/logout';
 
 $route['save'] = 'canvas/save';
+$route['delete'] = 'canvas/delete';
 
 $route['saved'] = 'user/canvas_list';
 

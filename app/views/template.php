@@ -36,7 +36,7 @@
                         <!-- Dropdown Trigger -->
                         <li>
                             <ul id="usermenu" class="dropdown-content">
-                                <li><a href="#!">View Saved</a></li>
+                                <li><a href="<?php echo base_url();?>saved">View Saved</a></li>
                                 <li class="divider"></li>
                                 <li><a href="<?php echo base_url();?>logout">Logout</a></li>
                             </ul>
@@ -84,6 +84,10 @@
             var canvasData = false;
             <?php endif;?>
         </script>
-        <script src="<?php echo base_url();?>assets/js/ui.js?v=<?php echo time();?>" type="text/javascript"></script>
+        <?php if( isset( $user_area ) ):?>
+            <script src="<?php echo base_url();?>assets/js/admin.js?v=<?php echo time();?>" type="text/javascript"></script>
+        <?php else: ?>
+            <script src="<?php echo base_url();?>assets/js/ui.js?v=<?php echo time();?>" type="text/javascript"></script>
+        <?php endif; ?>
     </body>
 </html>

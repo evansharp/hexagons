@@ -27,6 +27,14 @@ class Canvas extends MY_Controller{
 		echo json_encode( $cm->save_canvas( $user_id, $canvas_id, $canvas_data ) );
 	}
 
+	public function delete(){
+		$id = $_POST['canvas_id'];
+		$user_id = $_POST['user_id'];
+
+		$cm = new Canvas_model();
+		echo json_encode( $cm->delete_canvas( $user_id, $id) );
+	}
+
 
 	public function display( $canvas_id ){
 		if( strlen( $canvas_id ) != 40 ){

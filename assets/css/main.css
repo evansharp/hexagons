@@ -47,17 +47,6 @@ h2{ font-size: 1.7rem; }
 h3{ font-size: 1.3rem; }
 h4{ font-size: 1.1rem; font-weight: 500;}
 
-#loader_modal {
-    width: 200px !important;
-}
-    #loader_modal .modal-content{
-        padding: 0 !important;
-        text-align: center !important;
-    }
-    #loader_modal img{
-        width: 75px;
-        margin: 20px;
-    }
 #c{
     width: 100%;
     height: ;
@@ -85,4 +74,7 @@ h4{ font-size: 1.1rem; font-weight: 500;}
     position: absolute;
     background-color: #000;
     width: 50px !important;
+}
+.delete_from_list_button{
+    color: #000;
 }

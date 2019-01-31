@@ -4,7 +4,6 @@
     <div class="row">
         <h2> Saved Haxagon Formations </h2>
     </div>
-    <?php var_dump($canvas_list);?>
     <div class="row">
         <div class="col s12">
             <table class="striped">
@@ -20,10 +19,14 @@
             <tbody>
                 <?php foreach($canvas_list as $canvas): ?>
                     <tr>
-                        <td><?php echo $canvas['title'];?></td>
+                        <td><a href="<?php echo base_url() . 'formation/'. $canvas['canvas_id'];?>">
+                            <?php echo $canvas['title'];?>
+                        </a></td>
                         <td><?php echo $timeAgo->inWordsFromStrings( $canvas['modified'] );?></td>
                         <td><?php echo $timeAgo->inWordsFromStrings( $canvas['created'] );?></td>
-                        <td></td>
+                        <td><a href="" class="delete_from_list_button" data-canvas-id="<?php echo $canvas['canvas_id'];?>">
+                            <i class="material-icons">delete</i>
+                        </a></td>
                     </tr>
                 <?php endforeach;?>
             </tbody>
