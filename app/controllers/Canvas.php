@@ -13,7 +13,7 @@ class Canvas extends MY_Controller{
 
 	public function new(){
 		// display data
-		$page_data = [];
+		$page_data['title'] = 'Untitled';
 
 		$template_data['page']  = $this->load->view('canvas', $page_data ,TRUE);
     	$this->load->view('template', $template_data);
@@ -23,11 +23,12 @@ class Canvas extends MY_Controller{
 		$user_id = $_POST['user_id'];
 		$canvas_id = $_POST['canvas_id'];
 		$canvas_data = $_POST['canvas_data'];
+		$title = $_POST['title'];
 
 		if( $do_output ){
-			echo json_encode( $this->cm->save_canvas( $user_id, $canvas_id, $canvas_data ) );
+			echo json_encode( $this->cm->save_canvas( $user_id, $canvas_id, $canvas_data, $title ) );
 		}else{
-			$this->cm->save_canvas( $user_id, $canvas_id, $canvas_data );
+			$this->cm->save_canvas( $user_id, $canvas_id, $canvas_data, $title );
 		}
 	}
 
@@ -58,11 +59,13 @@ class Canvas extends MY_Controller{
 
 		$result = $this->cm->get_canvas( $canvas_id );
 
+		$page_data['title'] = '';
+
 		if( $result ){
 			$template_data['canvas'] = $result['canvas'];
+			$page_data['title'] = $result['title'];
 		}
 
-		$page_data = [];
 		$template_data['page']  = $this->load->view('canvas', $page_data ,TRUE);
 
     	$this->load->view('template', $template_data);

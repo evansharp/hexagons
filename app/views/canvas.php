@@ -1,3 +1,5 @@
+<h2 id="formation_title"> <span><?php echo $title; ?></span> <i class="material-icons">edit</i></h2>
+
 <canvas id="c" width="100%"></canvas>
 
 <div id="controls"></div>

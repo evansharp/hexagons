@@ -1,6 +1,6 @@
 $(document).ready(function(){
     //init mterialize components
-    $('.dropdown-trigger').dropdown();
+    M.AutoInit();
 });
 
 //delete canvas from list button

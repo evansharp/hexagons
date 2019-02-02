@@ -63,6 +63,16 @@
             </div>
         </div>
 
+        <div id="title_modal" class="modal">
+            <div class="modal-content">
+                <h4>Edit Formation Title</h4>
+                <input placeholder="Title" id="edit_title_input" type="text">
+            </div>
+            <div class="modal-footer">
+                <a href="#!" class="modal-close waves-effect waves-green btn-flat">Set</a>
+            </div>
+        </div>
+
         <script src="//code.jquery.com/jquery-2.1.4.min.js" type="text/javascript"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/1.7.22/fabric.min.js"></script>
@@ -75,6 +85,8 @@
             <?php else: ?>
                 var userid = false;
             <?php endif; ?>
+
+
 
             <?php
             if( isset( $canvas ) ):?>
@@ -91,6 +103,7 @@
         <?php if( isset( $user_area ) ):?>
             <script src="<?php echo base_url();?>assets/js/admin.js?v=<?php echo time();?>" type="text/javascript"></script>
         <?php else: ?>
+            <script src="<?php echo base_url();?>assets/js/canvas.js?v=<?php echo time();?>" type="text/javascript"></script>
             <script src="<?php echo base_url();?>assets/js/ui.js?v=<?php echo time();?>" type="text/javascript"></script>
         <?php endif; ?>
     </body>

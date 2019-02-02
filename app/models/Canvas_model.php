@@ -42,7 +42,7 @@ class Canvas_model extends MY_Model{
         }
     }
 
-    public function save_canvas( $user_id, $canvas_id, $canvas_data ){
+    public function save_canvas( $user_id, $canvas_id, $canvas_data, $title){
         $rt = ['msg' => null, 'id' => null, 'success' => null];
         $new = false;
 
@@ -68,7 +68,8 @@ class Canvas_model extends MY_Model{
         $data = [
                 'canvas_id' =>  $canvas_id,
                 'user_id'   =>  $user_id,
-                'canvas'    =>  $canvas_data
+                'canvas'    =>  $canvas_data,
+                'title'     =>  $title
         ];
         if( $new ){
             //new save so set the 'created' field

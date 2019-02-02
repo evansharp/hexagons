@@ -55,7 +55,7 @@ h4{ font-size: 1.1rem; font-weight: 500;}
 
 #c{
     width: 100%;
-    height: ;
+
 }
 .colorwheel {
 	display: none;
@@ -64,7 +64,7 @@ h4{ font-size: 1.1rem; font-weight: 500;}
 
     position: absolute;
     top: -150px;
-    left: -75px;
+    left: -80px;
 }
 .colorwheel-value{
     display: none;
@@ -83,4 +83,28 @@ h4{ font-size: 1.1rem; font-weight: 500;}
 }
 .delete_from_list_button{
     color: #000;
+}
+
+#formation_title{
+    position: absolute;
+    top: 70px;
+    left: 30px;
+    z-index: 30;
+    border: 1px solid transparent;
+    padding: 8px;
+    margin: 0;
+}
+#formation_title i{
+    margin-left: 0.5em;
+    font-size: 0.9em;
+    color: #eee;
+}
+#formation_title:hover{
+    cursor: text;
+}
+#formation_title:hover i{
+    color: #333;
+}
+#formation_title:hover{
+    border: 1px dotted #333;
 }

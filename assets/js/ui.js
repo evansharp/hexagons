@@ -1,12 +1,3 @@
-var canvas = {};
-var hex_id_counter = 0;
-
-fabric.Canvas.prototype.getAbsoluteCoords = function(object) {
-    return {
-      left: object.left + this._offset.left,
-      top: object.top + this._offset.top
-  };
-}
 
 function attachListeners(){
     // init just-added color wheel controls
@@ -72,26 +63,9 @@ function attachListeners(){
 
     });
 
-    // canvas.on('mouse:over', function(e) {
-    //     $('.hex_controls[data-hex-id="'+e.target.id+'"]').show();
-    //
-    // });
-    // canvas.on('mouse:out', function(e) {
-    //     $('.hex_controls[data-hex-id="'+e.target.id+'"]').hide();
-    // });
 }
 
-function positionCtl( canvas, obj, ctls ){
-    var absCoords = canvas.getAbsoluteCoords( obj );
-    ctls.style.left = (absCoords.left + 24) + 'px';
-    ctls.style.top = (absCoords.top + 1) + 'px';
-}
 
-function positionText( canvas, obj, text ){
-    var absCoords = canvas.getAbsoluteCoords( obj );
-    text.style.left = (absCoords.left) + 'px';
-    text.style.top = (absCoords.top + 30) + 'px';
-}
 
 function getControlGroupString(id){
     return '<div class="hex_controls" data-hex-id="' + id + '">' +
@@ -104,15 +78,16 @@ function getControlGroupString(id){
 
 $(document).ready(function(){
     //init mterialize components
-    $('.dropdown-trigger').dropdown();
-    $('.fixed-action-btn').floatingActionButton();
-    $('select').formSelect();
-    $('.tooltipped').tooltip();
+    M.AutoInit();
 
-    canvas = new fabric.Canvas('c',{
-        height:	window.innerHeight - 90,
-        width: window.innerWidth - 20
+    //init title editor with callback
+    M.Modal.init(document.querySelectorAll('#title_modal'), {
+        onCloseStart: function(){
+            $('#formation_title > span').html( $('#title_modal input').val() );
+        }
     });
+
+
 
     if( canvasData ){
         //process canvas objects to add settings not exported properly
@@ -138,47 +113,10 @@ $(document).ready(function(){
             positionCtl( canvas, o, new_controls);
         });
 
+        // init buttons
         attachListeners();
     }
-
-    // var grid = 120;
-    // var grids = 104;
-    //
-	// var gridLen = canvas.width / grid;
-    // var gridhieght = canvas.height / grids;
-    //
-    // for (var a = 0; a < gridhieght; a++){
-    //     for (var i = 0; i < gridLen; i++) {
-    //       var path = new fabric.Path('M0 51.96152422706631L30 0L90 0L120 51.96152422706631L90 103.92304845413263L30 103.92304845413263Z');
-    //       canvas.add(path);
-    //       path.set({
-    //           left: i * grid,
-    //           top: a * grids,
-    //           stroke: '#ebebeb',
-    //           fill: 0,
-    //           strokeWidth: 1,
-    //           selectable: false
-    //       });
-    //     }
-    // }
-
-
-    $(window).resize(function(){
-        canvas.setWidth( $(window).width() - 20);
-        canvas.setHeight( $(window).height() - 90 );
-        canvas.calcOffset();
-    });
-
-
-
-    // canvas.on('object:moving', function(options) {
-    //   options.target.set({
-    //     left: Math.round(options.target.left / grid) * grid,
-    //     top: Math.round(options.target.top / grid) * grid,
-    //     opacity: 0.8
-    //   });
-    // });
-
+    
     //save button
     $('#save_button').click(function(e){
         e.preventDefault();
@@ -191,7 +129,8 @@ $(document).ready(function(){
         var data = {
             'user_id'       :   userid,
             'canvas_id'     :   canvasid,
-            'canvas_data'   :   JSON.stringify(canvas)
+            'canvas_data'   :   JSON.stringify(canvas),
+            'title'         :   $('#formation_title span').text()
         };
 
         $.ajax({
@@ -264,7 +203,8 @@ $(document).ready(function(){
         var data = {
             'user_id'       :   userid,
             'canvas_id'     :   canvasid,
-            'canvas_data'   :   JSON.stringify(canvas)
+            'canvas_data'   :   JSON.stringify(canvas),
+            'title'         :   $('#formation_title span').text()
         };
 
         $.ajax({
@@ -291,8 +231,8 @@ $(document).ready(function(){
         var path = new fabric.Path('M0 51.96152422706631L30 0L90 0L120 51.96152422706631L90 103.92304845413263L30 103.92304845413263Z');
         canvas.add(path);
         path.set({
-            left: 0,
-            top: 0,
+            right: 50,
+            top: 50,
             fill: 'red',
             hasControls: false,
             hasBorders: false,
@@ -308,5 +248,11 @@ $(document).ready(function(){
 
         attachListeners();
         hex_id_counter += 1; //increment for next new hexagon
+    });
+
+    //edit title
+    $('#formation_title').click(function(){
+        $('#title_modal input').val( $(this).children('span').text() );
+        $('#title_modal').modal('open');
     });
 });
