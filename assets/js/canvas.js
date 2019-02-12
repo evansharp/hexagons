@@ -8,16 +8,16 @@ fabric.Canvas.prototype.getAbsoluteCoords = function(object) {
   };
 }
 
-function positionCtl( obj, ctls ){
+function positionCtl( canvas, obj, ctls ){
     var absCoords = canvas.getAbsoluteCoords( obj );
-    ctls.style.left = (absCoords.left + 40) + 'px';
+    ctls.style.left = (absCoords.left + 25) + 'px';
     ctls.style.top = (absCoords.top + 1) + 'px';
 }
 
-function positionText( obj, text ){
+function positionText( canvas, obj, text ){
     var absCoords = canvas.getAbsoluteCoords( obj );
-    text.style.left = (absCoords.left + 15) + 'px';
-    text.style.top = (absCoords.top + 50) + 'px';
+    text.style.left = (absCoords.left) + 'px';
+    text.style.top = (absCoords.top + 30) + 'px';
 }
 
 
@@ -31,6 +31,7 @@ $(document).ready(function(){
         canvas.calcOffset();
     });
 
+<<<<<<< HEAD
     //----------- Show and hide controls on hover ------->
 
     canvas.on('mouse:over', function(opt){
@@ -106,4 +107,6 @@ $(document).ready(function(){
     //   this.selection = true;
     // });
 
+=======
+>>>>>>> parent of a23768d... hover hex controls, not working
 });
