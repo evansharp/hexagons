@@ -183,8 +183,20 @@ $(document).ready(function(){
 
     //add hex button
     $('#add_hex').click(function(){
-        var path = new fabric.Path('M0 51.96152422706631L30 0L90 0L120 51.96152422706631L90 103.92304845413263L30 103.92304845413263Z');
+        //var path = new fabric.Path('M0 51.96152422706631L30 0L90 0L120 51.96152422706631L90 103.92304845413263L30 103.92304845413263Z');
 
+
+    		var path = new paper.Path();
+    		// Give the stroke a color
+    		path.strokeColor = 'black';
+    		var start = new paper.Point(100, 100);
+    		// Move to start and draw a line from there
+    		path.moveTo(start);
+    		// Note that the plus operator on Point objects does not work
+    		// in JavaScript. Instead, we need to call the add() function:
+    		path.lineTo(start.add([ 200, -50 ]));
+    		// Draw the view now:
+    		paper.view.draw();
         // canvas.add(path);
         // path.set({
         //     right: 50,
