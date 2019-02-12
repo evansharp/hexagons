@@ -8,7 +8,7 @@ function attachListeners(){
         $(this).prev('.colorwheel').fadeToggle(100);
     });
 
-    //when a colour is picked...
+    //when a colour is picked and apply to target hex
     $('.colorwheel').click(function(e){
         e.preventDefault();
         var color = new fabric.Color('#' + $(this).colorwheel('value') );
@@ -86,22 +86,11 @@ $(document).ready(function(){
         }
     });
 
+    //we are leading a canvas based on URL hash
+    //a JSON serialization of the canvas is in canvasData
     if( canvasData ){
-        //process canvas objects to add settings not exported properly
-        var rough_canvas = JSON.parse( canvasData );
 
-        $.each(rough_canvas.objects, function(i, canvas_item){
-            canvas_item.hasBorders = false;
-            canvas_item.hasControls = false;
-            canvas_item.hasRotatingPoint = false;
-            canvas_item.id = hex_id_counter; //restore an id for control group
 
-            hex_id_counter += 1; //increment counter for the next hexagon
-        });
-
-        //stupid Fabric JS won't import an object...
-        var fine_canvas = JSON.stringify( rough_canvas );
-        canvas.loadFromJSON( fine_canvas );
 
         //attach controls to each hexagon now that it's on the canvas
         $.each(canvas.getObjects(), function( i, o ){
@@ -126,7 +115,7 @@ $(document).ready(function(){
         var data = {
             'user_id'       :   userid,
             'canvas_id'     :   canvasid,
-            'canvas_data'   :   JSON.stringify(canvas),
+            'canvas_data'   :   JSON.stringify( canvas ),
             'title'         :   $('#formation_title span').text()
         };
 

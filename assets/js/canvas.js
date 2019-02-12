@@ -23,8 +23,6 @@ function positionText( obj, text ){
 
 $(document).ready(function(){
     canvas = new fabric.Canvas('c',{
-        height:	window.innerHeight - 90,
-        width: window.innerWidth - 20
     });
 
     $(window).resize(function(){
@@ -45,7 +43,7 @@ $(document).ready(function(){
     });
 
     //-------------- zoom -------------------------------->
-    
+
      // canvas.on('mouse:wheel', function(opt) {
     //   var delta = opt.e.deltaY;
     //   var pointer = canvas.getPointer(opt.e);
