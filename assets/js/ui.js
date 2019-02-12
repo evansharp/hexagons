@@ -1,4 +1,7 @@
+// provide incremental temp id for hex objects
+var hex_id_counter = 0;
 
+//an init function for listeners
 function attachListeners(){
     // init just-added color wheel controls
     $('.colorwheel').colorwheel();
@@ -11,55 +14,31 @@ function attachListeners(){
     //when a colour is picked and apply to target hex
     $('.colorwheel').click(function(e){
         e.preventDefault();
-        var color = new fabric.Color('#' + $(this).colorwheel('value') );
-        var id = $(this).parent('.hex_controls').attr('data-hex-id');
-        var hex = canvas.getObjects().filter(function(o) {
-            if (o.id == id) {
-                return o;
-            }
-        });
+        $(this).fadeOut(100); //hide colorwheel
 
-        hex[0].set('fill', '#' + $(this).colorwheel('value') );
-        $(this).fadeOut(100);
-        canvas.renderAll();
+        var picked = $(this).colorwheel('value');
+
+        //set hex color to picked color
+
+
+
     });
 
     //when a trashcan is kicked...
     $('.trashcan').click(function(e){
         e.preventDefault();
 
-        var controls = $(this).parent('.hex_controls');
-        var hex_id = controls.attr('data-hex-id');
-        var label = $('.hex_label').filter(function(i,e){
-            if( $(this).attr('data-hex-id') == hex_id ){
-                return this;
-            }
-        });
-        var hex = canvas.getObjects().filter(function(o) {
-            if (o.id == hex_id ) {
-                return o;
-            }
-        });
-
-        hex[0].remove();
-        controls.remove();
-        $(label).remove();
+        //destroy hex item and controls
     });
 
     //click labelmaker
     $('.labelmaker').click(function(e){
         e.preventDefault();
+
         var id = $(this).parent('.hex_controls').attr('data-hex-id');
+        var labelhtml = '<input type="text" class="hex_label" data-hex-id="' + id + '" >';
 
-        var new_text = $( '<input type="text" class="hex_label" data-hex-id="' + id + '" >' ).appendTo('#texts').get(0);
-        var hex = canvas.getObjects().filter(function(o) {
-            if (o.id == id ) {
-                return o;
-            }
-        });
-
-        hex[0].on('moving', function() { positionText( canvas, hex[0], new_text) });
-        positionText( canvas, hex[0], new_text);
+        // add an input to the path?
 
     });
 
@@ -91,17 +70,6 @@ $(document).ready(function(){
     //a JSON serialization of the canvas is in canvasData
     if( canvasData ){
 
-
-
-        //attach controls to each hexagon now that it's on the canvas
-        $.each(canvas.getObjects(), function( i, o ){
-            var new_controls = $( getControlGroupString( o.id ) ).appendTo('#controls').get(0);
-            o.on('moving', function() { positionCtl( canvas, o, new_controls) });
-            positionCtl( canvas, o, new_controls);
-        });
-
-        // init buttons
-        attachListeners();
     }
 
     //save button
@@ -116,7 +84,7 @@ $(document).ready(function(){
         var data = {
             'user_id'       :   userid,
             'canvas_id'     :   canvasid,
-            'canvas_data'   :   JSON.stringify( canvas ),
+            'canvas_data'   :   null,
             'title'         :   $('#formation_title span').text()
         };
 
@@ -190,7 +158,7 @@ $(document).ready(function(){
         var data = {
             'user_id'       :   userid,
             'canvas_id'     :   canvasid,
-            'canvas_data'   :   JSON.stringify(canvas),
+            'canvas_data'   :   null,
             'title'         :   $('#formation_title span').text()
         };
 
@@ -216,24 +184,18 @@ $(document).ready(function(){
     //add hex button
     $('#add_hex').click(function(){
         var path = new fabric.Path('M0 51.96152422706631L30 0L90 0L120 51.96152422706631L90 103.92304845413263L30 103.92304845413263Z');
-        canvas.add(path);
-        path.set({
-            right: 50,
-            top: 50,
-            fill: 'red',
-            hasControls: false,
-            hasBorders: false,
-            id: hex_id_counter
-        });
 
-        canvas.renderAll();
+        // canvas.add(path);
+        // path.set({
+        //     right: 50,
+        //     top: 50,
+        //     fill: 'red',
+        //     hasControls: false,
+        //     hasBorders: false,
+        //     id: hex_id_counter
+        // });
 
-        var new_controls = $( getControlGroupString( hex_id_counter) ).appendTo('#controls').get(0);
-        $('.colorwheel').colorwheel();
-        path.on('moving', function() { positionCtl( canvas, path, new_controls) });
-        positionCtl( canvas, path, new_controls);
 
-        attachListeners();
         hex_id_counter += 1; //increment for next new hexagon
     });
 

@@ -75,35 +75,34 @@
 
         <script src="//code.jquery.com/jquery-2.1.4.min.js" type="text/javascript"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/1.7.22/fabric.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/paper.js/0.12.0/paper-full.min.js"></script>
         <script src="<?php echo base_url();?>assets/js/jquery.colorwheel.js"></script>
         <script type="text/javascript">
             var baseurl = "<?php echo base_url();?>";
 
-            <?php if( isset( $_SESSION['user_id'] ) ):?>
-                var userid = "<?php echo $_SESSION['user_id']; ?>";
-            <?php else: ?>
-                var userid = false;
-            <?php endif; ?>
-
-
-
             <?php
-            if( isset( $canvas ) ):?>
-                var canvasData = '<?php echo $canvas;?>';
-            <?php else:?>
-                var canvasData = false;
-            <?php endif;?>
+                //condiionally pass some data to js from the server
 
-            <?php if( $this->session->flashdata('flash') ): ?>
-                M.toast({html: "<?php echo $this->session->flashdata('flash');?>" });
-            <?php endif; ?>
-
+                if( isset( $_SESSION['user_id'] ) ){
+                    echo "var userid = " . $_SESSION['user_id'] . ";";
+                }else{
+                    echo "var userid = false;";
+                }
+                if( isset( $canvas ) ){
+                    echo "var canvasData = '" . $canvas . "'" ;
+                }else{
+                    echo "var canvasData = false;";
+                }
+                if( $this->session->flashdata('flash') ){
+                    echo "M.toast({html: '" . $this->session->flashdata('flash') . "' });";
+                }
+            ?>
         </script>
+
         <?php if( isset( $user_area ) ):?>
             <script src="<?php echo base_url();?>assets/js/admin.js?v=<?php echo time();?>" type="text/javascript"></script>
         <?php else: ?>
-            <script src="<?php echo base_url();?>assets/js/canvas.js?v=<?php echo time();?>" type="text/javascript"></script>
+            <script src="<?php echo base_url();?>assets/js/canvas.js?v=<?php echo time();?>" type="text/paperscript" canvas="c"></script>
             <script src="<?php echo base_url();?>assets/js/ui.js?v=<?php echo time();?>" type="text/javascript"></script>
         <?php endif; ?>
     </body>
