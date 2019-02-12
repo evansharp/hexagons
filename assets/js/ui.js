@@ -87,13 +87,8 @@ $(document).ready(function(){
         }
     });
 
-<<<<<<< HEAD
     //we are leading a canvas based on URL hash
     //a JSON serialization of the canvas is in canvasData
-=======
-
-
->>>>>>> parent of a23768d... hover hex controls, not working
     if( canvasData ){
 
 
@@ -108,7 +103,7 @@ $(document).ready(function(){
         // init buttons
         attachListeners();
     }
-    
+
     //save button
     $('#save_button').click(function(e){
         e.preventDefault();

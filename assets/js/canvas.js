@@ -31,7 +31,6 @@ $(document).ready(function(){
         canvas.calcOffset();
     });
 
-<<<<<<< HEAD
     //----------- Show and hide controls on hover ------->
 
     canvas.on('mouse:over', function(opt){
@@ -106,7 +105,4 @@ $(document).ready(function(){
     //   this.isDragging = false;
     //   this.selection = true;
     // });
-
-=======
->>>>>>> parent of a23768d... hover hex controls, not working
 });
