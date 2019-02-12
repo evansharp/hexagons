@@ -102,7 +102,7 @@
         <?php if( isset( $user_area ) ):?>
             <script src="<?php echo base_url();?>assets/js/admin.js?v=<?php echo time();?>" type="text/javascript"></script>
         <?php else: ?>
-            <script src="<?php echo base_url();?>assets/js/canvas.js?v=<?php echo time();?>" type="text/paperscript" canvas="c"></script>
+            <script src="<?php echo base_url();?>assets/js/canvas.js?v=<?php echo time();?>" type="text/javascript" canvas="c"></script>
             <script src="<?php echo base_url();?>assets/js/ui.js?v=<?php echo time();?>" type="text/javascript"></script>
         <?php endif; ?>
     </body>
