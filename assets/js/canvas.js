@@ -33,14 +33,14 @@ $(document).ready(function(){
 
     //----------- Show and hide controls on hover ------->
 
-    canvas.on('mouse:over', function(opt){
-        var id = opt.target.id;
-        $('.hex_controls').filter('[data-hex-id=' + id + ']').show();
-    });
-    canvas.on('mouse:out', function(opt){
-        var id = opt.target.id;
-        $('.hex_controls').filter('[data-hex-id=' + id + ']').hide();
-    });
+    // canvas.on('mouse:over', function(opt){
+    //     var id = opt.target.id;
+    //     $('.hex_controls').filter('[data-hex-id=' + id + ']').show();
+    // });
+    // canvas.on('mouse:out', function(opt){
+    //     var id = opt.target.id;
+    //     $('.hex_controls').filter('[data-hex-id=' + id + ']').hide();
+    // });
 
     //-------------- zoom -------------------------------->
 
