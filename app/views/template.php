@@ -75,7 +75,7 @@
 
         <script src="//code.jquery.com/jquery-2.1.4.min.js" type="text/javascript"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/1.7.22/fabric.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/2.6.0/fabric.min.js"></script>
         <script src="<?php echo base_url();?>assets/js/jquery.colorwheel.js"></script>
         <script type="text/javascript">
             var baseurl = "<?php echo base_url();?>";

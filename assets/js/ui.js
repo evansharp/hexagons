@@ -51,23 +51,22 @@ function attachListeners(){
         e.preventDefault();
         var id = $(this).parent('.hex_controls').attr('data-hex-id');
 
-        var new_text = $( '<input type="text" class="hex_label" data-hex-id="' + id + '" >' ).appendTo('#texts').get(0);
+        var new_text = $( '<input type="text" class="hex_label" data-hex-id="' + id + '" >' ).appendTo('#texts').focus().get(0);
         var hex = canvas.getObjects().filter(function(o) {
             if (o.id == id ) {
                 return o;
             }
         });
 
-        hex[0].on('moving', function() { positionText( canvas, hex[0], new_text) });
-        positionText( canvas, hex[0], new_text);
+        hex[0].on('moving', function() { positionText( hex[0], new_text) });
+        positionText( hex[0], new_text);
+
 
     });
 
 }
 
-
-
-function getControlGroupString(id){
+function getControlGroupString( id ){
     return '<div class="hex_controls" data-hex-id="' + id + '">' +
                 '<div class="colorwheel"></div>'+
                 '<a href="" class="hex_control colorwheel_handle"><i class="material-icons">color_lens</i></a>'+
@@ -86,8 +85,6 @@ $(document).ready(function(){
             $('#formation_title > span').html( $('#title_modal input').val() );
         }
     });
-
-
 
     if( canvasData ){
         //process canvas objects to add settings not exported properly
@@ -109,14 +106,14 @@ $(document).ready(function(){
         //attach controls to each hexagon now that it's on the canvas
         $.each(canvas.getObjects(), function( i, o ){
             var new_controls = $( getControlGroupString( o.id ) ).appendTo('#controls').get(0);
-            o.on('moving', function() { positionCtl( canvas, o, new_controls) });
-            positionCtl( canvas, o, new_controls);
+            o.on('moving', function() { positionCtl( o, new_controls) });
+            positionCtl( o, new_controls);
         });
 
         // init buttons
         attachListeners();
     }
-    
+
     //save button
     $('#save_button').click(function(e){
         e.preventDefault();
@@ -228,23 +225,25 @@ $(document).ready(function(){
 
     //add hex button
     $('#add_hex').click(function(){
-        var path = new fabric.Path('M0 51.96152422706631L30 0L90 0L120 51.96152422706631L90 103.92304845413263L30 103.92304845413263Z');
+        //75px hex
+        var svghexpath = 'M0 64.9519052838329L37.5 0L112.5 0L150 64.9519052838329L112.5 129.9038105676658L37.5 129.9038105676658Z';
+
+        var path = new fabric.Path( svghexpath );
         canvas.add(path);
         path.set({
-            right: 50,
-            top: 50,
+            right: 60,
+            top: 70,
             fill: 'red',
             hasControls: false,
             hasBorders: false,
             id: hex_id_counter
         });
-
         canvas.renderAll();
 
         var new_controls = $( getControlGroupString( hex_id_counter) ).appendTo('#controls').get(0);
         $('.colorwheel').colorwheel();
-        path.on('moving', function() { positionCtl( canvas, path, new_controls) });
-        positionCtl( canvas, path, new_controls);
+        path.on('moving', function() { positionCtl( path, new_controls) });
+        positionCtl( path, new_controls);
 
         attachListeners();
         hex_id_counter += 1; //increment for next new hexagon
