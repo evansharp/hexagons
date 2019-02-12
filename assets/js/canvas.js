@@ -8,21 +8,23 @@ fabric.Canvas.prototype.getAbsoluteCoords = function(object) {
   };
 }
 
-function positionCtl( canvas, obj, ctls ){
+function positionCtl( obj, ctls ){
     var absCoords = canvas.getAbsoluteCoords( obj );
-    ctls.style.left = (absCoords.left + 25) + 'px';
+    ctls.style.left = (absCoords.left + 40) + 'px';
     ctls.style.top = (absCoords.top + 1) + 'px';
 }
 
-function positionText( canvas, obj, text ){
+function positionText( obj, text ){
     var absCoords = canvas.getAbsoluteCoords( obj );
-    text.style.left = (absCoords.left) + 'px';
-    text.style.top = (absCoords.top + 30) + 'px';
+    text.style.left = (absCoords.left + 15) + 'px';
+    text.style.top = (absCoords.top + 50) + 'px';
 }
 
 
 $(document).ready(function(){
     canvas = new fabric.Canvas('c',{
+        height:	window.innerHeight - 90,
+        width: window.innerWidth - 20
     });
 
     $(window).resize(function(){
@@ -105,4 +107,5 @@ $(document).ready(function(){
     //   this.isDragging = false;
     //   this.selection = true;
     // });
+
 });
