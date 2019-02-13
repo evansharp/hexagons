@@ -1,6 +1,3 @@
-// provide incremental temp id for hex objects
-var hex_id_counter = 0;
-
 //an init function for listeners
 function attachListeners(){
     // init just-added color wheel controls
@@ -19,15 +16,11 @@ function attachListeners(){
         var picked = $(this).colorwheel('value');
 
         //set hex color to picked color
-
-
-
     });
 
     //when a trashcan is kicked...
     $('.trashcan').click(function(e){
         e.preventDefault();
-
         //destroy hex item and controls
     });
 
@@ -37,10 +30,17 @@ function attachListeners(){
 
         var id = $(this).parent('.hex_controls').attr('data-hex-id');
         var labelhtml = '<input type="text" class="hex_label" data-hex-id="' + id + '" >';
-
         // add an input to the path?
-
     });
+
+
+    //----------- Draggable & Snaps ------->
+
+    
+
+    //----------- Show and hide controls on hover ------->
+
+    //----------- Zoom? Pan? ------->
 
 }
 
@@ -183,32 +183,14 @@ $(document).ready(function(){
 
     //add hex button
     $('#add_hex').click(function(){
-        //var path = new fabric.Path('M0 51.96152422706631L30 0L90 0L120 51.96152422706631L90 103.92304845413263L30 103.92304845413263Z');
 
+        var hexagon = new paper.Path.RegularPolygon(new paper.Point(200, 70), 6, 60);
+        hexagon.fillColor = '#e9e9ff';
+        hexagon.position = new paper.Point(100, 120);
+        hexagon.rotation = 30;
 
-    		var path = new paper.Path();
-    		// Give the stroke a color
-    		path.strokeColor = 'black';
-    		var start = new paper.Point(100, 100);
-    		// Move to start and draw a line from there
-    		path.moveTo(start);
-    		// Note that the plus operator on Point objects does not work
-    		// in JavaScript. Instead, we need to call the add() function:
-    		path.lineTo(start.add([ 200, -50 ]));
-    		// Draw the view now:
-    		paper.view.draw();
-        // canvas.add(path);
-        // path.set({
-        //     right: 50,
-        //     top: 50,
-        //     fill: 'red',
-        //     hasControls: false,
-        //     hasBorders: false,
-        //     id: hex_id_counter
-        // });
-
-
-        hex_id_counter += 1; //increment for next new hexagon
+    	paper.view.draw();
+        attachListeners();
     });
 
     //edit title
