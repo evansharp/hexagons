@@ -19,20 +19,17 @@ $(document).ready(function(){
     view.onMouseMove = function(event) {
         paper.project.activeLayer.selected = false;
         hexagons = paper.project.activeLayer.children;
-
+        
         // hit test to see which hex we have
         // activate tool depending on outcome
         if (hexagons.length > 0) {
             for (var ix = 0; ix < hexagons.length; ix++) {
-                if (hexagons[ix].contains( event.point )) {
-                    console.log( 'activate hex tools' );
-
+                if ( hexagons[ix].contains( event.point ) ) {
+                    console.log('hit');
                     hexTool.activate();
                     hexagons[ix].selected = true;
-
                     break;
                 }else{
-                    console.log( 'activate nav tools' );
                     navTool.activate();
                     break;
                 }
@@ -57,13 +54,17 @@ $(document).ready(function(){
 
         //do the drag
         if (targetIndex > -1) {
+
             hexagons[targetIndex].position = event.point;
 
+            //snap to others
             for (var i = 0; i < hexagons.length; i++) {
-                if( i == targetIndex)
+                if( i == targetIndex){
                     continue;
+                }
 
-                //var intersections = hexagons[i].getIntersections( hexagons[targetIndex] );
+                var intersections = hexagons[targetIndex].getIntersections( hexagons[i] );
+                console.log(intersections);
 
                 // if(intersections){
                 //     for (var i = 0; i < intersections.length; i++) {
@@ -79,15 +80,37 @@ $(document).ready(function(){
         }
     };
 
-    //when dragging the canvas, the panTool is already activated
+    //when dragging the canvas, the navTool is already activated
     navTool.onMouseDrag = function(event){
-            console.log(event);
-            var offset = event.downPoint - event.point;
-            console.log(view.center);
-            //view.center += offset;
+            var offset = event.downPoint.subtract( event.point );
+            view.center = view.center.add(offset);
 
     };
     view.onDoubleClick = function(event) {
-        view.center = view.size/2;
+        view.center = view.size.divide(2);
     };
+
+    // Zoom
+    // $('#canvas').bind('mousewheel DOMMouseScroll MozMousePixelScroll', function(e) {
+    //     var delta = 0;
+    //     e.preventDefault();
+    //     if (e.type == 'mousewheel') {       //this is for chrome/IE
+    //         delta = e.originalEvent.wheelDelta;
+    //     }
+    //     else if (e.type == 'DOMMouseScroll') {  //this is for FireFox
+    //         delta = e.originalEvent.detail*-1;  //FireFox reverses the scroll so we force to to re-reverse...
+    //     }
+    //     if (delta > 0) {   //scroll up
+    //         var zoomCenter = e.point.subtract(paper.view.center);
+    //
+    //         var moveFactor = toolZoomIn.zoomFactor - 1.0;
+    //         paper.view.zoom *= toolZoomIn.zoomFactor;
+    //         paper.view.center = paper.view.center.add(zoomCenter.multiply(moveFactor/toolZoomIn.zoomFactor));
+    //         toolZoomIn.hitTest(event);
+    //         toolZoomIn.mode = '';
+    //     }
+    //     else if(delta < 0){ //scroll down
+    //         //call the zoomOut here
+    //     }
+    // });
 });

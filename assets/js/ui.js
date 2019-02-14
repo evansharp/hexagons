@@ -36,7 +36,7 @@ function attachListeners(){
 
     //----------- Draggable & Snaps ------->
 
-    
+
 
     //----------- Show and hide controls on hover ------->
 
@@ -188,6 +188,7 @@ $(document).ready(function(){
         hexagon.fillColor = '#e9e9ff';
         hexagon.position = new paper.Point(100, 120);
         hexagon.rotation = 30;
+        hexagon.selectedColor = new Color(1, 0, 0);
 
     	paper.view.draw();
         attachListeners();
