@@ -15,6 +15,7 @@ $('.delete_from_list_button').click(function(e){
             if( obj.success ){
                 $( e.target ).parents('tr').slideUp(500, function(){ $(this).remove(); });
             }
+            M.toast({html: obj.msg });
 
         },
         error: function(res, status, xhr){
