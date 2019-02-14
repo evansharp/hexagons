@@ -77,26 +77,30 @@ $(document).ready(function(){
     };
 
     // Zoom
-    // $('#canvas').bind('mousewheel DOMMouseScroll MozMousePixelScroll', function(e) {
-    //     var delta = 0;
-    //     e.preventDefault();
-    //     if (e.type == 'mousewheel') {       //this is for chrome/IE
-    //         delta = e.originalEvent.wheelDelta;
-    //     }
-    //     else if (e.type == 'DOMMouseScroll') {  //this is for FireFox
-    //         delta = e.originalEvent.detail*-1;  //FireFox reverses the scroll so we force to to re-reverse...
-    //     }
-    //     if (delta > 0) {   //scroll up
-    //         var zoomCenter = e.point.subtract(paper.view.center);
-    //
-    //         var moveFactor = toolZoomIn.zoomFactor - 1.0;
-    //         paper.view.zoom *= toolZoomIn.zoomFactor;
-    //         paper.view.center = paper.view.center.add(zoomCenter.multiply(moveFactor/toolZoomIn.zoomFactor));
-    //         toolZoomIn.hitTest(event);
-    //         toolZoomIn.mode = '';
-    //     }
-    //     else if(delta < 0){ //scroll down
-    //         //call the zoomOut here
-    //     }
-    // });
+    $('#c').bind('mousewheel DOMMouseScroll MozMousePixelScroll', function(e) {
+
+        var delta = 0;
+        e.preventDefault();
+        if (e.type == 'mousewheel') {       //this is for chrome/IE
+            delta = e.originalEvent.wheelDelta;
+        }
+        else if (e.type == 'DOMMouseScroll') {  //this is for FireFox
+            delta = e.originalEvent.detail*-1;  //FireFox reverses the scroll so we force to to re-reverse...
+        }
+        if (delta > 0) {   //scroll up
+            var point = paper.DomEvent.getOffset(event, $('#c')[0]);
+            point = paper.view.viewToProject(point);
+
+            var zoomCenter = point.subtract(paper.view.center);
+
+            // var moveFactor = toolZoomIn.zoomFactor - 1.0;
+            // paper.view.zoom *= toolZoomIn.zoomFactor;
+            // paper.view.center = paper.view.center.add(zoomCenter.multiply(moveFactor/toolZoomIn.zoomFactor));
+            // toolZoomIn.hitTest(event);
+            // toolZoomIn.mode = '';
+        }
+        else if(delta < 0){ //scroll down
+            //call the zoomOut here
+        }
+    });
 });
