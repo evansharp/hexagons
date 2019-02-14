@@ -32,16 +32,6 @@ function attachListeners(){
         var labelhtml = '<input type="text" class="hex_label" data-hex-id="' + id + '" >';
         // add an input to the path?
     });
-
-
-    //----------- Draggable & Snaps ------->
-
-
-
-    //----------- Show and hide controls on hover ------->
-
-    //----------- Zoom? Pan? ------->
-
 }
 
 
@@ -66,10 +56,10 @@ $(document).ready(function(){
         }
     });
 
-    //we are leading a canvas based on URL hash
+    //we are loading a canvas based on URL hash
     //a JSON serialization of the canvas is in canvasData
     if( canvasData ){
-
+        paper.project.importJSON(canvasData);
     }
 
     //save button
@@ -84,7 +74,7 @@ $(document).ready(function(){
         var data = {
             'user_id'       :   userid,
             'canvas_id'     :   canvasid,
-            'canvas_data'   :   null,
+            'canvas_data'   :   paper.project.exportJSON(),
             'title'         :   $('#formation_title span').text()
         };
 
@@ -158,7 +148,7 @@ $(document).ready(function(){
         var data = {
             'user_id'       :   userid,
             'canvas_id'     :   canvasid,
-            'canvas_data'   :   null,
+            'canvas_data'   :   paper.project.exportJSON(),
             'title'         :   $('#formation_title span').text()
         };
 
