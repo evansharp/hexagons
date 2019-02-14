@@ -14,69 +14,55 @@ $(document).ready(function(){
 
     navTool = new paper.Tool();
     hexTool = new paper.Tool();
+    var hitTestOptions = {
+        segments: true,
+        stroke: false,
+        fill: true,
+        tolerance: 5
+    };
 
     //select hexes and appropriate tool when hovering
     view.onMouseMove = function(event) {
         paper.project.activeLayer.selected = false;
-        hexagons = paper.project.activeLayer.children;
-        
-        // hit test to see which hex we have
-        // activate tool depending on outcome
-        if (hexagons.length > 0) {
-            for (var ix = 0; ix < hexagons.length; ix++) {
-                if ( hexagons[ix].contains( event.point ) ) {
-                    console.log('hit');
-                    hexTool.activate();
-                    hexagons[ix].selected = true;
-                    break;
-                }else{
-                    navTool.activate();
-                    break;
-                }
-            }
+
+        var hitResult = paper.project.hitTest(event.point, hitTestOptions);
+
+        if (!hitResult){
+            navTool.activate();
+            return;
+        }
+
+        if (hitResult) {
+            hexTool.activate();
+            hitResult.item.selected = true;
         }
     }
 
     //when dragging a hex, the hexTool is already activated
     hexTool.onMouseDrag = function(event) {
-        var targetIndex = -1;
-        var hexagons = paper.project.activeLayer.children;
+        var hitResult = paper.project.hitTest(event.point, hitTestOptions);
 
-        // hit test to see which hex we have
-        if (hexagons.length > 0) {
-            for (var ix = 0; ix < hexagons.length; ix++) {
-                if (hexagons[ix].contains( event.point )) {
-                    targetIndex = ix;
-                    break;
-                }
-            }
-        }
+        if (!hitResult)
+            return;
 
-        //do the drag
-        if (targetIndex > -1) {
+        if (hitResult) {
+    		targetHex = hitResult.item;
+            paper.project.activeLayer.addChild(hitResult.item);
 
-            hexagons[targetIndex].position = event.point;
+            //do the drag
+            targetHex.position = event.point;
 
             //snap to others
-            for (var i = 0; i < hexagons.length; i++) {
-                if( i == targetIndex){
+            var allHexes = paper.project.activeLayer.children;
+
+            for (var i = 0; i < allHexes.length; i++) {
+                if( allHexes[i].id == targetHex.id)
                     continue;
-                }
 
-                var intersections = hexagons[targetIndex].getIntersections( hexagons[i] );
-                console.log(intersections);
+                var intersections = targetHex.getIntersections( allHexes[i] );
 
-                // if(intersections){
-                //     for (var i = 0; i < intersections.length; i++) {
-                //         new paper.Path.Circle({
-                //             center: intersections[i].point,
-                //             radius: 5,
-                //             fillColor: '#000'
-                //         }).removeOnMove();
-                //         paper.view.draw();
-                //     }
-                // }
             }
+
         }
     };
 
