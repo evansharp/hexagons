@@ -14,18 +14,42 @@ $(document).ready(function(){
 
     navTool = new paper.Tool();
     hexTool = new paper.Tool();
-    var hitTestOptions = {
-        segments: true,
+    var hitTestOptions_drag = {
+        segments: false,
         stroke: false,
         fill: true,
-        tolerance: 5
+        tolerance: 5,
+        match: function( t ){
+            // only allow mouseover hit on the hex's body, in order to exclude controls
+            if (t.item.name == 'hexbody'){
+                return true;
+            }else {
+                return false;
+            }
+
+        }
+    };
+    var hitTestOptions_click = {
+        segments: false,
+        stroke: false,
+        fill: true,
+        tolerance: 5,
+        match: function( t ){
+            // only allow click to hit on the controls
+            if (t.item.name == 'colorControl' || t.item.name == 'delControl' || t.item.name == 'label'){
+                return true;
+            }else {
+                return false;
+            }
+
+        }
     };
 
     //select hexes and appropriate tool when hovering
     view.onMouseMove = function(event) {
         paper.project.activeLayer.selected = false;
 
-        var hitResult = paper.project.hitTest(event.point, hitTestOptions);
+        var hitResult = paper.project.hitTest(event.point, hitTestOptions_drag);
 
         if (!hitResult){
             navTool.activate();
@@ -34,73 +58,100 @@ $(document).ready(function(){
 
         if (hitResult) {
             hexTool.activate();
+            //highlight the hexbody with a selection stroke
             hitResult.item.selected = true;
         }
     }
 
     //when dragging a hex, the hexTool is already activated
     hexTool.onMouseDrag = function(event) {
-        var hitResult = paper.project.hitTest(event.point, hitTestOptions);
+        var hitResult = paper.project.hitTest(event.point, hitTestOptions_drag);
 
         if (!hitResult)
             return;
 
         if (hitResult) {
-    		targetHex = hitResult.item;
-            paper.project.activeLayer.addChild(hitResult.item);
+    		targetHexGroup = hitResult.item.parent;
+            paper.project.activeLayer.addChild( targetHexGroup );
 
-            //do the drag
-            targetHex.position = event.point;
+            //do the drag .. on the hex group!
+            targetHexGroup.position = event.point;
 
             //snap to others
-            var allHexes = paper.project.activeLayer.children;
+            // var allHexes = paper.project.activeLayer.children;
+            //
+            // for (var i = 0; i < allHexes.length; i++) {
+            //     if( allHexes[i].id == targetHex.id)
+            //         continue;
+            //
+            //     var intersections = targetHex.getIntersections( allHexes[i] );
+            //
+            // }
+        }
+    };
 
-            for (var i = 0; i < allHexes.length; i++) {
-                if( allHexes[i].id == targetHex.id)
-                    continue;
+    //when dragging the canvas, the navTool is already activated
+    navTool.onMouseDrag = function(event){
+        if (event.modifiers.alt) {
+            var offset = event.downPoint.subtract( event.point );
+            view.center = view.center.add(offset);
+        }
 
-                var intersections = targetHex.getIntersections( allHexes[i] );
+    };
+    // little helper to re-center the canvas
+    view.onDoubleClick = function(event) {
+        if (event.modifiers.alt) {
+            view.center = view.size.divide(2);
+        }
+    };
+
+    // Zoom
+    // $('#c').bind('mousewheel DOMMouseScroll MozMousePixelScroll', function(e) {
+    //
+    //     var delta = 0;
+    //     e.preventDefault();
+    //     if (e.type == 'mousewheel') {       //this is for chrome/IE
+    //         delta = e.originalEvent.wheelDelta;
+    //     }
+    //     else if (e.type == 'DOMMouseScroll') {  //this is for FireFox
+    //         delta = e.originalEvent.detail*-1;  //FireFox reverses the scroll so we force to to re-reverse...
+    //     }
+    //     if (delta > 0) {   //scroll up
+    //         var point = paper.DomEvent.getOffset(event, $('#c')[0]);
+    //         point = paper.view.viewToProject(point);
+    //
+    //         var zoomCenter = point.subtract(paper.view.center);
+    //
+    //         var moveFactor = toolZoomIn.zoomFactor - 1.0;
+    //         console.log(toolZoomIn.zoomFactor);
+    //         // paper.view.zoom *= toolZoomIn.zoomFactor;
+    //         // paper.view.center = paper.view.center.add(zoomCenter.multiply(moveFactor/toolZoomIn.zoomFactor));
+    //         // toolZoomIn.hitTest(event);
+    //         // toolZoomIn.mode = '';
+    //     }
+    //     else if(delta < 0){ //scroll down
+    //         //call the zoomOut here
+    //     }
+    //});
+
+    // color wheel, delete, and label controls
+    hexTool.onMouseUp = function(event){
+        var hitResult = paper.project.hitTest(event.point, hitTestOptions_click);
+        if (!hitResult)
+            return;
+
+        if (hitResult) {
+            if(hitResult.item.name == 'colorControl'){
+                console.log('color: ' + hitResult.item.parent.id);
+                $('.colorwheel[data-hex-id="' + hitResult.item.parent.id + '"]').fadeToggle(100);
+
+            }else if(hitResult.item.name == 'delControl'){
+                console.log('del');
+            }else if(hitResult.item.name == 'label'){
 
             }
 
         }
     };
 
-    //when dragging the canvas, the navTool is already activated
-    navTool.onMouseDrag = function(event){
-            var offset = event.downPoint.subtract( event.point );
-            view.center = view.center.add(offset);
-
-    };
-    view.onDoubleClick = function(event) {
-        view.center = view.size.divide(2);
-    };
-
-    // Zoom
-    $('#c').bind('mousewheel DOMMouseScroll MozMousePixelScroll', function(e) {
-
-        var delta = 0;
-        e.preventDefault();
-        if (e.type == 'mousewheel') {       //this is for chrome/IE
-            delta = e.originalEvent.wheelDelta;
-        }
-        else if (e.type == 'DOMMouseScroll') {  //this is for FireFox
-            delta = e.originalEvent.detail*-1;  //FireFox reverses the scroll so we force to to re-reverse...
-        }
-        if (delta > 0) {   //scroll up
-            var point = paper.DomEvent.getOffset(event, $('#c')[0]);
-            point = paper.view.viewToProject(point);
-
-            var zoomCenter = point.subtract(paper.view.center);
-
-            // var moveFactor = toolZoomIn.zoomFactor - 1.0;
-            // paper.view.zoom *= toolZoomIn.zoomFactor;
-            // paper.view.center = paper.view.center.add(zoomCenter.multiply(moveFactor/toolZoomIn.zoomFactor));
-            // toolZoomIn.hitTest(event);
-            // toolZoomIn.mode = '';
-        }
-        else if(delta < 0){ //scroll down
-            //call the zoomOut here
-        }
-    });
 });

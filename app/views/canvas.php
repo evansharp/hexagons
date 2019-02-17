@@ -7,3 +7,5 @@
     <i class="large material-icons">add</i></a>
   </a>
 </div>
+
+<div id="colorwheel_bin"></div>
