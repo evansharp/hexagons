@@ -4,26 +4,19 @@ function attachListeners( id ){
     $('#colorwheel_bin').append('<div class="colorwheel" data-hex-id="' + id + '"></div>');
     $('.colorwheel').colorwheel();
 
-
-    $('.colorwheel_handle').click(function(e){
-        e.preventDefault();
-        $(this).prev('.colorwheel').fadeToggle(100);
-    });
-
     //when a colour is picked and apply to target hex
     $('.colorwheel').click(function(e){
         e.preventDefault();
         $(this).fadeOut(100); //hide colorwheel
 
         var picked = $(this).colorwheel('value');
+        var id = null;
 
         //set hex color to picked color
-    });
+        var hexGrounp = paper.Project.getItem({id: id});
+        hexGroup.children['hexbody'].fillColor = picked;
+        paper.view.draw();
 
-    //when a trashcan is kicked...
-    $('.trashcan').click(function(e){
-        e.preventDefault();
-        //destroy hex item and controls
     });
 
     //click labelmaker

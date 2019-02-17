@@ -55,6 +55,7 @@ h4{ font-size: 1.1rem; font-weight: 500;}
 
 #c{
     width: 100%;
+    z-index: 1;
 
 }
 #colorwheel_bin{

@@ -1,4 +1,6 @@
+
 <h2 id="formation_title"> <span><?php echo $title; ?></span> <i class="material-icons">edit</i></h2>
+<div id="colorwheel_bin"></div>
 
 <canvas id="c" resize></canvas>
 
@@ -7,5 +9,3 @@
     <i class="large material-icons">add</i></a>
   </a>
 </div>
-
-<div id="colorwheel_bin"></div>

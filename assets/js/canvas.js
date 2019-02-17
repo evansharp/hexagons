@@ -53,6 +53,8 @@ $(document).ready(function(){
 
         if (!hitResult){
             navTool.activate();
+            //reset any styled cursors
+            $('body').css('cursor', 'default');
             return;
         }
 
@@ -60,7 +62,18 @@ $(document).ready(function(){
             hexTool.activate();
             //highlight the hexbody with a selection stroke
             hitResult.item.selected = true;
+
+            //make the cursor make sense over the hex body
+            $('body').css('cursor', 'move');
         }
+
+        //make the cursor make sense over controls
+        var hitResult = paper.project.hitTest(event.point, hitTestOptions_click);
+        if (hitResult){
+
+            $('body').css('cursor', 'pointer');
+        }
+
     }
 
     //when dragging a hex, the hexTool is already activated
@@ -143,10 +156,15 @@ $(document).ready(function(){
         if (hitResult) {
             if(hitResult.item.name == 'colorControl'){
                 console.log('color: ' + hitResult.item.parent.id);
+
                 $('.colorwheel[data-hex-id="' + hitResult.item.parent.id + '"]').fadeToggle(100);
 
             }else if(hitResult.item.name == 'delControl'){
-                console.log('del');
+                console.log('del: ' + hitResult.item.parent.id);
+
+                hitResult.item.parent.remove();
+                hitResult.item.parent.clear();
+
             }else if(hitResult.item.name == 'label'){
 
             }
