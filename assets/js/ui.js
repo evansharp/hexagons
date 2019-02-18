@@ -149,16 +149,23 @@ $(document).ready(function(){
         delControl.position = new paper.Point(205, 32);
         delControl.name = 'delControl';
 
+        var textControl = new paper.Path('M2.5 4v3h5v12h3V7h5V4h-13zm19 5h-9v3h3v7h3v-7h3V9z');
+        textControl.fillColor = '#000000';
+        textControl.position = new paper.Point(220, 32);
+        textControl.name = 'textControl';
+
         var label = new paper.PointText({
-            point: [155, 58],
-            content: 'The contents of the point text',
+            point: [155, 73],
+            name: 'label',
+            content: 'label',
             fillColor: 'black',
             fontFamily: 'Courier New',
-            fontSize: 12
+            fontSize: 14,
+            justification: 'center'
         });
 
-        var hexGroup = new paper.Group( [hexagon, colorControl, delControl, label] );
-        hexGroup.position = view.center; //new paper.Point(100, 120);
+        var hexGroup = new paper.Group( [hexagon, colorControl, delControl, textControl, label] );
+        hexGroup.position = view.center;
         hexGroup.name = "hexgroup";
 
     	paper.view.draw();
