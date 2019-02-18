@@ -62,7 +62,6 @@ $(document).ready(function(){
             hexTool.activate();
             //highlight the hexbody with a selection stroke
             hitResult.item.selected = true;
-
             //make the cursor make sense over the hex body
             $('body').css('cursor', 'move');
         }
@@ -70,7 +69,6 @@ $(document).ready(function(){
         //make the cursor make sense over controls
         var hitResult = paper.project.hitTest(event.point, hitTestOptions_click);
         if (hitResult){
-
             $('body').css('cursor', 'pointer');
         }
 
@@ -87,8 +85,13 @@ $(document).ready(function(){
     		targetHexGroup = hitResult.item.parent;
             paper.project.activeLayer.addChild( targetHexGroup );
 
-            //do the drag .. on the hex group!
+            //do the drag ... on the hex group!
             targetHexGroup.position = event.point;
+            //and the colorwheel
+            $('.colorwheel[data-hex-id="' + hitResult.item.parent.id + '"]').css({
+                "top" : (event.point.y - 50) + "px",
+                "left": (event.point.x - 90) + "px"
+            });
 
             //snap to others
             // var allHexes = paper.project.activeLayer.children;
@@ -155,12 +158,12 @@ $(document).ready(function(){
 
         if (hitResult) {
             if(hitResult.item.name == 'colorControl'){
-                console.log('color: ' + hitResult.item.parent.id);
+                //console.log('color: ' + hitResult.item.parent.id);
 
                 $('.colorwheel[data-hex-id="' + hitResult.item.parent.id + '"]').fadeToggle(100);
 
             }else if(hitResult.item.name == 'delControl'){
-                console.log('del: ' + hitResult.item.parent.id);
+                //console.log('del: ' + hitResult.item.parent.id);
 
                 hitResult.item.parent.remove();
                 hitResult.item.parent.clear();

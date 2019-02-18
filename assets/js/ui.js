@@ -1,43 +1,6 @@
 //an init function for listeners
 function attachListeners( id ){
-    // init just-added color wheel controls
-    $('#colorwheel_bin').append('<div class="colorwheel" data-hex-id="' + id + '"></div>');
-    $('.colorwheel').colorwheel();
 
-    //when a colour is picked and apply to target hex
-    $('.colorwheel').click(function(e){
-        e.preventDefault();
-        $(this).fadeOut(100); //hide colorwheel
-
-        var picked = $(this).colorwheel('value');
-        var id = null;
-
-        //set hex color to picked color
-        var hexGrounp = paper.Project.getItem({id: id});
-        hexGroup.children['hexbody'].fillColor = picked;
-        paper.view.draw();
-
-    });
-
-    //click labelmaker
-    $('.labelmaker').click(function(e){
-        e.preventDefault();
-
-        var id = $(this).parent('.hex_controls').attr('data-hex-id');
-        var labelhtml = '<input type="text" class="hex_label" data-hex-id="' + id + '" >';
-        // add an input to the path?
-    });
-}
-
-
-
-function getControlGroupString(id){
-    return '<div class="hex_controls" data-hex-id="' + id + '">' +
-                '<div class="colorwheel" data-hex-id="' + id + '"></div>'+
-                '<a href="" class="hex_control colorwheel_handle"><i class="material-icons">color_lens</i></a>'+
-                '<a href="" class="hex_control trashcan"><i class="material-icons">delete</i></a>'+
-                '<a href="" class="hex_control labelmaker"><i class="material-icons">text_fields</i></a>'+
-            '</div>';
 }
 
 $(document).ready(function(){
@@ -186,15 +149,43 @@ $(document).ready(function(){
         delControl.position = new paper.Point(205, 32);
         delControl.name = 'delControl';
 
-        var label = null;
+        var label = new paper.PointText({
+            point: [155, 58],
+            content: 'The contents of the point text',
+            fillColor: 'black',
+            fontFamily: 'Courier New',
+            fontSize: 12
+        });
 
         var hexGroup = new paper.Group( [hexagon, colorControl, delControl, label] );
-        hexGroup.position = new paper.Point(100, 120);
+        hexGroup.position = view.center; //new paper.Point(100, 120);
         hexGroup.name = "hexgroup";
 
     	paper.view.draw();
 
-        attachListeners(hexGroup.id);
+        // init just-added color wheel controls
+        $('<div class="colorwheel" data-hex-id="' + hexGroup.id + '"></div>').css({
+                                                "top" : (hexGroup.position.y - 50) + "px",
+                                                "left" : (hexGroup.position.x - 90) + "px",
+                                            }).appendTo('#colorwheel_bin');
+
+
+        $('.colorwheel').colorwheel();
+
+        //when a colour is picked and apply to target hex
+        $('.colorwheel').click(function(e){
+            e.preventDefault();
+            $(this).fadeOut(100); //hide colorwheel
+
+            var picked = $(this).colorwheel('value');
+            var targetId = $(this).attr('data-hex-id');
+
+            //set hex color to picked color
+            var hexGroup = paper.project.getItem( {id: parseInt(targetId) } );
+            hexGroup.children['hexbody'].fillColor = '#' + picked;
+            paper.view.draw();
+
+        });
     });
 
     //edit title

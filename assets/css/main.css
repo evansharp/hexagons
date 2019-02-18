@@ -58,17 +58,14 @@ h4{ font-size: 1.1rem; font-weight: 500;}
     z-index: 1;
 
 }
-#colorwheel_bin{
-    display: none;
-}
 .colorwheel {
 	display: none;
 	width: 150px;
 	height: 150px;
 
     position: absolute;
-    top: 400px;
-    left: 400px;
+    top: 100px;
+    left: 100px;
 
     z-index: 200;
 }
