@@ -36,7 +36,7 @@ $(document).ready(function(){
         tolerance: 5,
         match: function( t ){
             // only allow click to hit on the controls
-            if (t.item.name == 'colorControl' || t.item.name == 'delControl' || t.item.name == 'label'){
+            if (t.item.name == 'colorControl' || t.item.name == 'delControl' || t.item.name == 'textControl'){
                 return true;
             }else {
                 return false;
@@ -53,6 +53,20 @@ $(document).ready(function(){
 
         if (!hitResult){
             navTool.activate();
+            //hide controls
+            var groups = paper.project.getItems({
+                name: 'hexgroup'
+            });
+            if( groups ){
+                for(var f = 0; f < groups.length; f++){
+
+                    var hidecolor = groups[f].children['hexbody'].fillColor;
+                    groups[f].children['colorControl'].fillColor = hidecolor;
+                    groups[f].children['delControl'].fillColor = hidecolor;
+                    groups[f].children['textControl'].fillColor = hidecolor;
+                }
+            }
+
             //reset any styled cursors
             $('body').css('cursor', 'default');
             return;
@@ -60,6 +74,12 @@ $(document).ready(function(){
 
         if (hitResult) {
             hexTool.activate();
+            //show controls
+            hexGroup = hitResult.item.parent;
+            hexGroup.children['colorControl'].fillColor = '#000';
+            hexGroup.children['delControl'].fillColor = '#000';
+            hexGroup.children['textControl'].fillColor = '#000';
+
             //highlight the hexbody with a selection stroke
             hitResult.item.selected = true;
             //make the cursor make sense over the hex body
@@ -158,18 +178,19 @@ $(document).ready(function(){
 
         if (hitResult) {
             if(hitResult.item.name == 'colorControl'){
-                //console.log('color: ' + hitResult.item.parent.id);
-
                 $('.colorwheel[data-hex-id="' + hitResult.item.parent.id + '"]').fadeToggle(100);
 
             }else if(hitResult.item.name == 'delControl'){
-                //console.log('del: ' + hitResult.item.parent.id);
-
                 hitResult.item.parent.remove();
                 hitResult.item.parent.clear();
 
-            }else if(hitResult.item.name == 'label'){
-
+            }else if(hitResult.item.name == 'textControl'){
+                var old_label_content = hitResult.item.parent.children['label'].content;
+                var hexLabel_id = hitResult.item.parent.children['label'].id;
+                //dialog
+                $('#label_modal input').val( old_label_content );
+                $('#edit_label_id').html( hexLabel_id );
+                $('#label_modal').modal('open');
             }
 
         }

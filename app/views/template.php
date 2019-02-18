@@ -73,6 +73,18 @@
             </div>
         </div>
 
+        <div id="label_modal" class="modal">
+            <div class="modal-content">
+                <h4>Edit Hexagon Label</h4>
+                <input placeholder="Label" id="edit_label_input" type="text" maxlength="25">
+                <span class="maxlength_notice">25 character limit</span>
+                <span id="edit_label_id"></span>
+            </div>
+            <div class="modal-footer">
+                <a href="#!" class="modal-close waves-effect waves-green btn-flat">Set</a>
+            </div>
+        </div>
+
         <script src="//code.jquery.com/jquery-2.1.4.min.js" type="text/javascript"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-mousewheel/3.1.13/jquery.mousewheel.js" type="text/javascript"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>

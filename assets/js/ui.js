@@ -14,6 +14,22 @@ $(document).ready(function(){
         }
     });
 
+    //init hex label editor with callback
+    M.Modal.init(document.querySelectorAll('#label_modal'), {
+        onCloseStart: function(){
+            paper.project.getItems({ id: parseInt( $('#edit_label_id').html() ) })[0].content = $('#label_modal input').val();
+        }
+    });
+    //show a warning when limit is reached
+    $('#label_modal input').keyup(function(){
+        var num_char = $(this).val().length;
+        if(num_char == 25){
+            $(this).siblings('.maxlength_notice').css('color', 'red');
+        }else{
+            $(this).siblings('.maxlength_notice').css('color', 'transparent');
+        }
+    });
+
     //we are loading a canvas based on URL hash
     //a JSON serialization of the canvas is in canvasData
     if( canvasData ){
@@ -131,36 +147,37 @@ $(document).ready(function(){
 
     //add hex button
     $('#add_hex').click(function(){
+        var init_color = '#e9e9ff';
 
         var hexagon = new paper.Path.RegularPolygon(new paper.Point(200, 70), 6, 60);
-        hexagon.fillColor = '#e9e9ff';
+        hexagon.fillColor = init_color;
         hexagon.rotation = 30;
         hexagon.selectedColor = new Color(1, 0, 0);
         hexagon.name = 'hexbody';
 
         var colorControl = new paper.Path('M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9c.83 0 1.5-.67 1.5-1.5 0-.39-.15-.74-.39-1.01-.23-.26-.38-.61-.38-.99 0-.83.67-1.5 1.5-1.5H16c2.76 0 5-2.24 5-5 0-4.42-4.03-8-9-8zm-5.5 9c-.83 0-1.5-.67-1.5-1.5S5.67 9 6.5 9 8 9.67 8 10.5 7.33 12 6.5 12zm3-4C8.67 8 8 7.33 8 6.5S8.67 5 9.5 5s1.5.67 1.5 1.5S10.33 8 9.5 8zm5 0c-.83 0-1.5-.67-1.5-1.5S13.67 5 14.5 5s1.5.67 1.5 1.5S15.33 8 14.5 8zm3 4c-.83 0-1.5-.67-1.5-1.5S16.67 9 17.5 9s1.5.67 1.5 1.5-.67 1.5-1.5 1.5z');
-        colorControl.fillColor = '#000000';
+        colorControl.fillColor = init_color;
         colorControl.position = new paper.Point(180, 32);
         colorControl.name = 'colorControl';
 
 
         var delControl = new paper.Path('M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z');
-        delControl.fillColor = '#000000';
+        delControl.fillColor = init_color;
         delControl.position = new paper.Point(205, 32);
         delControl.name = 'delControl';
 
         var textControl = new paper.Path('M2.5 4v3h5v12h3V7h5V4h-13zm19 5h-9v3h3v7h3v-7h3V9z');
-        textControl.fillColor = '#000000';
+        textControl.fillColor = init_color;
         textControl.position = new paper.Point(220, 32);
         textControl.name = 'textControl';
 
         var label = new paper.PointText({
-            point: [155, 73],
+            point: [202, 74],
             name: 'label',
-            content: 'label',
+            content: '',
             fillColor: 'black',
-            fontFamily: 'Courier New',
-            fontSize: 14,
+            fontFamily: 'Lato',
+            fontSize: 15,
             justification: 'center'
         });
 

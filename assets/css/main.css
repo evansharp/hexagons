@@ -1,5 +1,5 @@
 html{
-    font-family: Lato;
+    font-family: 'Lato';
     font-weight: 300;
     min-width: 850px;
 }
@@ -98,4 +98,12 @@ h4{ font-size: 1.1rem; font-weight: 500;}
 }
 #formation_title:hover{
     border: 1px dotted #333;
+}
+.maxlength_notice{
+    color: red;
+    font-size: 13px;
+    color: transparent;
+}
+#edit_label_id{
+    display:none;
 }
