@@ -3,17 +3,19 @@ paper.install(window);
 var navTool, hexTool;
 
 $(document).ready(function(){
-    $(window).resize(function(){
-        $('#c').css({   'width': '100%',
-                        'height': '100%'
-                    });
-    });
+    $('#c').css({   'width'     : '100%',
+                    'height'    : (window.innerHeight - 89) + 'px' //subtract height of nav bar
+                });
+
 
     var canvas = document.getElementById('c');
     paper.setup(canvas);
 
     navTool = new paper.Tool();
+        navTool.zoomFactor = 1.1;
+        navTool.moveFactor = 0.05;
     hexTool = new paper.Tool();
+
     var hitTestOptions_drag = {
         segments: false,
         stroke: false,
@@ -59,16 +61,16 @@ $(document).ready(function(){
             });
             if( groups ){
                 for(var f = 0; f < groups.length; f++){
-
                     var hidecolor = groups[f].children['hexbody'].fillColor;
                     groups[f].children['colorControl'].fillColor = hidecolor;
                     groups[f].children['delControl'].fillColor = hidecolor;
                     groups[f].children['textControl'].fillColor = hidecolor;
                 }
             }
-
-            //reset any styled cursors
-            $('body').css('cursor', 'default');
+            //reset any styled cursors, unless the alt key is down
+            if(!event.modifiers.alt){
+                $('body').css('cursor', 'default');
+            }
             return;
         }
 
@@ -128,11 +130,22 @@ $(document).ready(function(){
 
     //when dragging the canvas, the navTool is already activated
     navTool.onMouseDrag = function(event){
-        if (event.modifiers.alt) {
+        if (event.modifiers.alt){
             var offset = event.downPoint.subtract( event.point );
             view.center = view.center.add(offset);
         }
-
+    };
+    navTool.onMouseDown = function(event){
+        if(event.modifiers.alt){
+            $('body').css('cursor', 'grabbing');
+        }
+    };
+    navTool.onMouseUp = function(event){
+        if(event.modifiers.alt){
+            $('body').css('cursor', 'grab');
+        }else{
+            $('body').css('cursor', 'default');
+        }
     };
     // little helper to re-center the canvas
     view.onDoubleClick = function(event) {
@@ -142,33 +155,49 @@ $(document).ready(function(){
     };
 
     // Zoom
-    // $('#c').bind('mousewheel DOMMouseScroll MozMousePixelScroll', function(e) {
-    //
-    //     var delta = 0;
-    //     e.preventDefault();
-    //     if (e.type == 'mousewheel') {       //this is for chrome/IE
-    //         delta = e.originalEvent.wheelDelta;
-    //     }
-    //     else if (e.type == 'DOMMouseScroll') {  //this is for FireFox
-    //         delta = e.originalEvent.detail*-1;  //FireFox reverses the scroll so we force to to re-reverse...
-    //     }
-    //     if (delta > 0) {   //scroll up
-    //         var point = paper.DomEvent.getOffset(event, $('#c')[0]);
-    //         point = paper.view.viewToProject(point);
-    //
-    //         var zoomCenter = point.subtract(paper.view.center);
-    //
-    //         var moveFactor = toolZoomIn.zoomFactor - 1.0;
-    //         console.log(toolZoomIn.zoomFactor);
-    //         // paper.view.zoom *= toolZoomIn.zoomFactor;
-    //         // paper.view.center = paper.view.center.add(zoomCenter.multiply(moveFactor/toolZoomIn.zoomFactor));
-    //         // toolZoomIn.hitTest(event);
-    //         // toolZoomIn.mode = '';
-    //     }
-    //     else if(delta < 0){ //scroll down
-    //         //call the zoomOut here
-    //     }
-    //});
+    $('#c').bind('mousewheel DOMMouseScroll MozMousePixelScroll', function(e) {
+        if(e.altKey == true){
+            var delta = 0;
+            e.preventDefault();
+            if (e.type == 'mousewheel') {       //this is for chrome/IE
+                delta = e.originalEvent.wheelDelta;
+            }
+            else if (e.type == 'DOMMouseScroll') {  //this is for FireFox
+                delta = e.originalEvent.detail*-1;  //FireFox reverses the scroll so we force to to re-reverse...
+            }
+            if (delta > 0) {   //scroll up so zoom IN
+                paper.view.zoom *= navTool.zoomFactor;
+                if( paper.view.zoom > 1.5){
+                    paper.view.zoom = 1.5;
+                }
+
+                var point = paper.DomEvent.getOffset(event, $('#c')[0]);
+                point = paper.view.viewToProject( point );
+
+                var zoomCenter = point.subtract(paper.view.center);
+
+                paper.view.center = paper.view.center.add( zoomCenter.multiply( navTool.moveFactor ) );
+            }
+            else if(delta < 0){ //scroll down so zoom OUT
+                paper.view.zoom /= navTool.zoomFactor;
+                console.log(paper.view.zoom);
+                if( paper.view.zoom < 0.50){
+                   paper.view.zoom = 0.50;
+                }
+
+                var point = paper.DomEvent.getOffset(event, $('#c')[0]);
+                point = paper.view.viewToProject( point );
+
+                var zoomCenter = point.subtract(paper.view.center);
+
+
+
+
+                 paper.view.center = paper.view.center.subtract( zoomCenter.multiply( navTool.moveFactor ) );
+
+            }
+        }
+    });
 
     // color wheel, delete, and label controls
     hexTool.onMouseUp = function(event){

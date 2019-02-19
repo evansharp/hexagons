@@ -1,8 +1,3 @@
-//an init function for listeners
-function attachListeners( id ){
-
-}
-
 $(document).ready(function(){
     //init mterialize components
     M.AutoInit();
@@ -16,17 +11,33 @@ $(document).ready(function(){
 
     //init hex label editor with callback
     M.Modal.init(document.querySelectorAll('#label_modal'), {
+        onOpenEnd: function(){
+            $('#label_modal input').focus();
+        },
         onCloseStart: function(){
             paper.project.getItems({ id: parseInt( $('#edit_label_id').html() ) })[0].content = $('#label_modal input').val();
         }
     });
-    //show a warning when limit is reached
+    //show a warning when char limit is reached
     $('#label_modal input').keyup(function(){
         var num_char = $(this).val().length;
         if(num_char == 25){
             $(this).siblings('.maxlength_notice').css('color', 'red');
         }else{
             $(this).siblings('.maxlength_notice').css('color', 'transparent');
+        }
+    });
+
+    //change cursor on alt key for pan & zoom
+    $(window).bind('keydown', function(e){
+        if(e.which == 18){
+            $('body').css('cursor', 'grab');
+
+        }
+    });
+    $(window).bind('keyup', function(e){
+        if(e.which == 18){
+            $('body').css('cursor', 'default');
         }
     });
 
