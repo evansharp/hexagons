@@ -78,9 +78,9 @@ $(document).ready(function(){
             hexTool.activate();
             //show controls
             hexGroup = hitResult.item.parent;
-            hexGroup.children['colorControl'].fillColor = '#000';
-            hexGroup.children['delControl'].fillColor = '#000';
-            hexGroup.children['textControl'].fillColor = '#000';
+            hexGroup.children['colorControl'].fillColor = '#333';
+            hexGroup.children['delControl'].fillColor = '#333';
+            hexGroup.children['textControl'].fillColor = '#333';
 
             //highlight the hexbody with a selection stroke
             hitResult.item.selected = true;
@@ -156,7 +156,7 @@ $(document).ready(function(){
 
     // Zoom
     $('#c').bind('mousewheel DOMMouseScroll MozMousePixelScroll', function(e) {
-        if(e.altKey == true){
+        if(e.ctrlKey == true){
             var delta = 0;
             e.preventDefault();
             if (e.type == 'mousewheel') {       //this is for chrome/IE
