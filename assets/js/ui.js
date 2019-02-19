@@ -32,8 +32,10 @@ $(document).ready(function(){
     $(window).bind('keydown', function(e){
         if(e.which == 18){
             $('body').css('cursor', 'grab');
+            panTool.activate();
         }else if(e.which == 17){
             $('body').css('cursor', 'zoom-in');
+            zoomTool.activate();
         }
     });
     $(window).bind('keyup', function(e){
@@ -234,5 +236,10 @@ $(document).ready(function(){
     //give user instructions
     M.toast({
         html: "Use ctrl + mousewheel to zoom. <br> Use alt + drag to pan." });
-    });
+
+
+    //warn user before leaving
+    window.onbeforeunload = function(){
+        return 'Are you sure you want to leave this formation without saving?';
+    };
 });

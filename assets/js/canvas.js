@@ -1,6 +1,6 @@
 
 paper.install(window);
-var navTool, hexTool;
+var zoomTool, hexTool, panTool, selectTool;
 
 $(document).ready(function(){
     $('#c').css({   'width'     : '100%',
@@ -11,10 +11,12 @@ $(document).ready(function(){
     var canvas = document.getElementById('c');
     paper.setup(canvas);
 
-    navTool = new paper.Tool();
-        navTool.zoomFactor = 1.1;
-        navTool.moveFactor = 0.05;
+    zoomTool = new paper.Tool();
+        zoomTool.zoomFactor = 1.1;
+        zoomTool.moveFactor = 0.05;
+    panTool = new paper.Tool();
     hexTool = new paper.Tool();
+    selectTool = new paper.Tool();
 
     var hitTestOptions_drag = {
         segments: false,
@@ -54,7 +56,6 @@ $(document).ready(function(){
         var hitResult = paper.project.hitTest(event.point, hitTestOptions_drag);
 
         if (!hitResult){
-            navTool.activate();
             //hide controls
             var groups = paper.project.getItems({
                 name: 'hexgroup'
@@ -67,8 +68,8 @@ $(document).ready(function(){
                     groups[f].children['textControl'].fillColor = hidecolor;
                 }
             }
-            //reset any styled cursors, unless the alt key is down
-            if(!event.modifiers.alt){
+            //reset any styled cursors, unless a mod key is down
+            if(!event.modifiers.alt || !event.modifiers.control){
                 $('body').css('cursor', 'default');
             }
             return;
@@ -93,7 +94,6 @@ $(document).ready(function(){
         if (hitResult){
             $('body').css('cursor', 'pointer');
         }
-
     }
 
     //when dragging a hex, the hexTool is already activated
@@ -128,19 +128,20 @@ $(document).ready(function(){
         }
     };
 
+
     //when dragging the canvas, the navTool is already activated
-    navTool.onMouseDrag = function(event){
+    panTool.onMouseDrag = function(event){
         if (event.modifiers.alt){
             var offset = event.downPoint.subtract( event.point );
             view.center = view.center.add(offset);
         }
     };
-    navTool.onMouseDown = function(event){
+    panTool.onMouseDown = function(event){
         if(event.modifiers.alt){
             $('body').css('cursor', 'grabbing');
         }
     };
-    navTool.onMouseUp = function(event){
+    panTool.onMouseUp = function(event){
         if(event.modifiers.alt){
             $('body').css('cursor', 'grab');
         }else{
@@ -166,7 +167,7 @@ $(document).ready(function(){
                 delta = e.originalEvent.detail*-1;  //FireFox reverses the scroll so we force to to re-reverse...
             }
             if (delta > 0) {   //scroll up so zoom IN
-                paper.view.zoom *= navTool.zoomFactor;
+                paper.view.zoom *= zoomTool.zoomFactor;
                 if( paper.view.zoom > 1.5){
                     paper.view.zoom = 1.5;
                 }
@@ -176,10 +177,10 @@ $(document).ready(function(){
 
                 var zoomCenter = point.subtract(paper.view.center);
 
-                paper.view.center = paper.view.center.add( zoomCenter.multiply( navTool.moveFactor ) );
+                paper.view.center = paper.view.center.add( zoomCenter.multiply( zoomTool.moveFactor ) );
             }
             else if(delta < 0){ //scroll down so zoom OUT
-                paper.view.zoom /= navTool.zoomFactor;
+                paper.view.zoom /= zoomTool.zoomFactor;
                 console.log(paper.view.zoom);
                 if( paper.view.zoom < 0.50){
                    paper.view.zoom = 0.50;
@@ -189,11 +190,7 @@ $(document).ready(function(){
                 point = paper.view.viewToProject( point );
 
                 var zoomCenter = point.subtract(paper.view.center);
-
-
-
-
-                 paper.view.center = paper.view.center.subtract( zoomCenter.multiply( navTool.moveFactor ) );
+                paper.view.center = paper.view.center.subtract( zoomCenter.multiply( zoomTool.moveFactor ) );
 
             }
         }
