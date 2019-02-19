@@ -111,6 +111,7 @@
                 }
             ?>
         </script>
+        <script src="<?php echo base_url();?>assets/js/util.js?v=<?php echo time();?>" type="text/javascript"></script>
 
         <?php if( isset( $user_area ) ):?>
             <script src="<?php echo base_url();?>assets/js/admin.js?v=<?php echo time();?>" type="text/javascript"></script>

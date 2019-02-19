@@ -234,12 +234,13 @@ $(document).ready(function(){
     });
 
     //give user instructions
-    M.toast({
-        html: "Use ctrl + mousewheel to zoom. <br> Use alt + drag to pan." });
-
+    if( !getCookie('instructions') ){
+        M.toast({html: "Use ctrl + mousewheel to zoom. <br> Use alt + drag to pan." });
+        setCookie('instructions', 'true', 1);
+    }
 
     //warn user before leaving
     window.onbeforeunload = function(){
-        return 'Are you sure you want to leave this formation without saving?';
+        //return 'Are you sure you want to leave this formation without saving?';
     };
 });
