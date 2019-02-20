@@ -235,7 +235,8 @@ $(document).ready(function(){
 
     //give user instructions
     if( !getCookie('instructions') ){
-        M.toast({html: "Use ctrl + mousewheel to zoom. <br> Use alt + drag to pan." });
+        var msg = "ctrl + mousewheel to zoom. <br> alt + drag to pan.";
+        M.toast({html: msg });
         setCookie('instructions', 'true', 1);
     }
 

@@ -116,20 +116,29 @@ $(document).ready(function(){
             });
 
             //snap to others
-            // var allHexes = paper.project.activeLayer.children;
-            //
-            // for (var i = 0; i < allHexes.length; i++) {
-            //     if( allHexes[i].id == targetHex.id)
-            //         continue;
-            //
-            //     var intersections = targetHex.getIntersections( allHexes[i] );
-            //
-            // }
+            var allHexes = paper.project.activeLayer.children;
+
+
+            for (var i = 0; i < allHexes.length; i++) {
+                if( allHexes[i].id == targetHexGroup.id)
+                    continue;
+
+                var is = getIntersections(targetHexGroup.children['hexbody'], allHexes[i].children['hexbody']);
+                for (var i = 0; i < is.length; i++) {
+                    new Path.Circle({
+                        center: is[i].point,
+                        radius: 5,
+                        fillColor: '#009dec'
+                    }).removeOnMove();
+
+
+                }
+            }
         }
     };
 
 
-    //when dragging the canvas, the navTool is already activated
+    // pan tool is activated by the alt key already
     panTool.onMouseDrag = function(event){
         if (event.modifiers.alt){
             var offset = event.downPoint.subtract( event.point );

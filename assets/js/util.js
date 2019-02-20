@@ -20,3 +20,7 @@ function setCookie(cname, cvalue, exdays) {
   var expires = "expires="+ d.toUTCString();
   document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
 }
+
+function getIntersections(path1, path2) {
+    return intersections = path1.getIntersections(path2);
+}
