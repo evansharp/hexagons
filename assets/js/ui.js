@@ -4,6 +4,9 @@ $(document).ready(function(){
 
     //init title editor with callback
     M.Modal.init(document.querySelectorAll('#title_modal'), {
+        onOpenEnd: function(){
+            $('#title_modal input').focus();
+        },
         onCloseStart: function(){
             $('#formation_title > span').html( $('#title_modal input').val() );
         }
@@ -28,26 +31,39 @@ $(document).ready(function(){
         }
     });
 
-    //change cursor on alt key for pan & zoom
-    $(window).bind('keydown', function(e){
-        if(e.which == 18){
-            $('body').css('cursor', 'grab');
-            panTool.activate();
-        }else if(e.which == 17){
-            $('body').css('cursor', 'zoom-in');
-            zoomTool.activate();
-        }
-    });
-    $(window).bind('keyup', function(e){
-        if(e.which == 18 || e.which == 17){
-            $('body').css('cursor', 'default');
-        }
-    });
+    
 
     //we are loading a canvas based on URL hash
     //a JSON serialization of the canvas is in canvasData
     if( canvasData ){
         paper.project.importJSON(canvasData);
+
+        //add color wheels for extant Hexagons
+        var allHexes = paper.project.activeLayer.children;
+
+        for (var i = 0; i < allHexes.length; i++) {
+            var hexGroup = allHexes[i];
+
+            $('<div class="colorwheel" data-hex-id="' + hexGroup.id + '"></div>').css({
+                                                    "top" : (hexGroup.position.y - 50) + "px",
+                                                    "left" : (hexGroup.position.x - 90) + "px",
+                                                }).appendTo('#colorwheel_bin');
+        }
+        $('.colorwheel').colorwheel();
+
+        //when a colour is picked and apply to target hex
+        $('.colorwheel').click(function(e){
+            e.preventDefault();
+            $(this).fadeOut(100); //hide colorwheel
+
+            var picked = $(this).colorwheel('value');
+            var targetId = $(this).attr('data-hex-id');
+
+            //set hex color to picked color
+            var hexGroup = paper.project.getItem( {id: parseInt(targetId) } );
+            hexGroup.children['hexbody'].fillColor = '#' + picked;
+            paper.view.draw();
+        });
     }
 
     //save button
@@ -152,6 +168,7 @@ $(document).ready(function(){
                 }
             },
             error: function(res, status, xhr){
+                console.log(res);
                 var obj = JSON.parse( res );
                 console.log( obj );
                 M.toast({html: obj.msg });
@@ -165,6 +182,8 @@ $(document).ready(function(){
 
         var hexagon = new paper.Path.RegularPolygon(new paper.Point(200, 70), 6, 60);
         hexagon.fillColor = init_color;
+        hexagon.strokeColor = new Color(1, 0, 0);
+        hexagon.strokeWidth = 0;
         hexagon.rotation = 30;
         hexagon.selectedColor = new Color(1, 0, 0);
         hexagon.name = 'hexbody';

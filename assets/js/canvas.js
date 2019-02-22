@@ -51,8 +51,6 @@ $(document).ready(function(){
 
     //select hexes and appropriate tool when hovering
     view.onMouseMove = function(event) {
-        paper.project.activeLayer.selected = false;
-
         var hitResult = paper.project.hitTest(event.point, hitTestOptions_drag);
 
         if (!hitResult){
@@ -66,10 +64,12 @@ $(document).ready(function(){
                     groups[f].children['colorControl'].fillColor = hidecolor;
                     groups[f].children['delControl'].fillColor = hidecolor;
                     groups[f].children['textControl'].fillColor = hidecolor;
+                    //unstroke (hover indicator) Hexagons
+                    groups[f].children['hexbody'].strokeWidth = 0;
                 }
             }
             //reset any styled cursors, unless a mod key is down
-            if(!event.modifiers.alt || !event.modifiers.control){
+            if(!event.modifiers.alt && !event.modifiers.control){
                 $('body').css('cursor', 'default');
             }
             return;
@@ -79,12 +79,12 @@ $(document).ready(function(){
             hexTool.activate();
             //show controls
             hexGroup = hitResult.item.parent;
-            hexGroup.children['colorControl'].fillColor = '#333';
-            hexGroup.children['delControl'].fillColor = '#333';
-            hexGroup.children['textControl'].fillColor = '#333';
+            hexGroup.children['colorControl'].fillColor = '#222';
+            hexGroup.children['delControl'].fillColor = '#222';
+            hexGroup.children['textControl'].fillColor = '#222';
 
-            //highlight the hexbody with a selection stroke
-            hitResult.item.selected = true;
+            //highlight the hexbody with a stroke
+            hitResult.item.strokeWidth = 2;
             //make the cursor make sense over the hex body
             $('body').css('cursor', 'move');
         }
@@ -116,28 +116,46 @@ $(document).ready(function(){
             });
 
             //snap to others
-            var allHexes = paper.project.activeLayer.children;
-
-            for (var i = 0; i < allHexes.length; i++) {
-                if( allHexes[i].id == targetHexGroup.id)
-                    continue;
-
-
-                var is = getIntersections(targetHexGroup.children['hexbody'], allHexes[i].children['hexbody']);
-
-                for (var i = 0; i < is.length; i++) {
-                    new Path.Circle({
-                        center: is[i].point,
-                        radius: 5,
-                        fillColor: '#009dec'
-                    }).removeOnDrag().removeOnMove();
-
-
-                }
-            }
+            //var allHexes = paper.project.activeLayer.children;
+            //
+            // for (var i = 0; i < allHexes.length; i++) {
+            //     if( allHexes[i].id == targetHexGroup.id)
+            //         continue;
+            //
+            //
+            //     var is = []; //getIntersections(targetHexGroup.children['hexbody'], allHexes[i].children['hexbody']);
+            //
+            //     for (var i = 0; i < is.length; i++) {
+            //         new Path.Circle({
+            //             center: is[i].point,
+            //             radius: 5,
+            //             fillColor: '#009dec'
+            //         }).removeOnDrag().removeOnMove();
+            //
+            //
+            //     }
+            // }
         }
     };
 
+    //toggle tools with mod keys
+    //change cursor on alt key for pan & zoom
+    $(window).bind('keydown', function(e){
+        if(e.which == 18){
+            $('body').css('cursor', 'grab');
+            panTool.activate();
+        }else if(e.which == 17){
+            $('body').css('cursor', 'zoom-in');
+            zoomTool.activate();
+        }else if(e.which == 16){
+            selectTool.activate();
+        }
+    });
+    $(window).bind('keyup', function(e){
+        if(e.which == 18 || e.which == 17){
+            $('body').css('cursor', 'default');
+        }
+    });
 
     // pan tool is activated by the alt key already
     panTool.onMouseDrag = function(event){
@@ -164,6 +182,16 @@ $(document).ready(function(){
             view.center = view.size.divide(2);
         }
     };
+
+    //draw selection box
+    selectTool.onMouseDrag = function(event){
+        if (event.modifiers.shift) {
+            var startCorner = event.downPoint;
+            
+
+        }
+    }
+
 
     // Zoom
     $('#c').bind('mousewheel DOMMouseScroll MozMousePixelScroll', function(e) {

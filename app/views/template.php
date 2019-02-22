@@ -102,7 +102,7 @@
                     echo "var userid = false;";
                 }
                 if( isset( $canvas ) ){
-                    echo "var canvasData = '" . $canvas . "'" ;
+                    echo "var canvasData = '$canvas';";
                 }else{
                     echo "var canvasData = false;";
                 }

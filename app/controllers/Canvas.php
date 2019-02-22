@@ -43,11 +43,12 @@ class Canvas extends MY_Controller{
 		$this->save( false );
 
 		$user_id = $_POST['user_id'];
-		$canvas_id = '';	//empty will trigger a new id to be assigned when saved
+		$canvas_id = '';	//empty id will trigger a new id to be assigned when saved
 		$canvas_data = $_POST['canvas_data'];
+		$title = $_POST['title'];
 
 		$this->session->set_flashdata('flash', 'Formation Duplicated');
-		echo json_encode( $this->cm->save_canvas( $user_id, $canvas_id, $canvas_data ) );
+		echo json_encode( $this->cm->save_canvas( $user_id, $canvas_id, $canvas_data, $title ) );
 	}
 
 
