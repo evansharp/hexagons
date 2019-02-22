@@ -184,11 +184,21 @@ $(document).ready(function(){
     };
 
     //draw selection box
+    selectTool.onMouseDown = function(event){
+        if (event.modifiers.shift) {
+
+        }
+    }
     selectTool.onMouseDrag = function(event){
         if (event.modifiers.shift) {
             var startCorner = event.downPoint;
-            
+            var selectBox = new paper.Path.Rectangle(startCorner, 1);
+            selectBox.fillColor = '#e9e9ff',
+            selectBox.strokeColor = '#80C2F4';
+            selectBox.strokeWidth = 1;
+            selectBox.name = 'selectbox';
 
+            
         }
     }
 
