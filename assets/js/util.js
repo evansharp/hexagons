@@ -24,3 +24,13 @@ function setCookie(cname, cvalue, exdays) {
 function getIntersections(path1, path2) {
     return intersections = path1.getIntersections(path2);
 }
+
+// check sessionStorage for a canvas in case the user just logged-in
+// make sure not to over-write a hash-labeled canvas sent from the server already
+if( sessionStorage.getItem("canvasData") && !canvasData ){
+    var canvasData = sessionStorage.getItem("canvasData");
+    console.log('loaded from sessionStorage');
+}else if(!canvasData){
+    //init a new session without loading anything
+    var canvasData = false;
+}

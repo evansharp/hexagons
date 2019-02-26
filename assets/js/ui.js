@@ -31,8 +31,6 @@ $(document).ready(function(){
         }
     });
 
-    
-
     //we are loading a canvas based on URL hash
     //a JSON serialization of the canvas is in canvasData
     if( canvasData ){
@@ -64,7 +62,22 @@ $(document).ready(function(){
             hexGroup.children['hexbody'].fillColor = '#' + picked;
             paper.view.draw();
         });
+
+        //loaded from temp client session post-login, prompt user to save
+        if( sessionStorage.getItem("canvasData") ){
+            M.toast({html: "Logged in! <br> Don't forget to save your work." });
+        }
+
+        //remove any data leftover from logging in
+        sessionStorage.clear();
+
     }
+
+    // save canvas on client when logging-in so work is not lost
+    $('#loginlink').on("click", function (e) {
+        sessionStorage.setItem('canvasData', paper.project.exportJSON());
+    });
+
 
     //save button
     $('#save_button').click(function(e){
@@ -254,8 +267,7 @@ $(document).ready(function(){
 
     //give user instructions
     if( !getCookie('instructions') ){
-        var msg = "ctrl + mousewheel to zoom. <br> alt + drag to pan.";
-        M.toast({html: msg });
+        M.toast({html: "ctrl + mousewheel to zoom. <br> alt + drag to pan." });
         setCookie('instructions', 'true', 1);
     }
 

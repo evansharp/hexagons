@@ -26,6 +26,7 @@
                     <ul class="right hide-on-med-and-down">
                         <?php if( $_SESSION['logged_in'] ): ?>
                             <?php if( !isset($hide_save) ): ?>
+                                <li><a href="<?php echo base_url();?>">New</a></li>
                                 <li><a href="" id="save_button">Save</a></li>
                                 <li><a href="" id="delete_button">Delete</a></li>
                                 <li><a href="" id="duplicate_button">Duplicate</a></li>
@@ -49,7 +50,7 @@
                         </li>
                         <?php else: ?>
 
-                            <li><a href="<?php echo $_SESSION['authUrl']; ?>">
+                            <li><a href="<?php echo $_SESSION['authUrl']; ?>" id="loginlink">
                                 <i class="small material-icons left">account_circle</i> Login
                             </a></li>
                         <?php endif; ?>
@@ -90,6 +91,7 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/paper.js/0.12.0/paper-full.min.js"></script>
         <script src="<?php echo base_url();?>assets/js/jquery.colorwheel.js"></script>
+
         <script type="text/javascript">
             var baseurl = "<?php echo base_url();?>";
 
@@ -103,8 +105,6 @@
                 }
                 if( isset( $canvas ) ){
                     echo "var canvasData = '$canvas';";
-                }else{
-                    echo "var canvasData = false;";
                 }
                 if( $this->session->flashdata('flash') ){
                     echo "M.toast({html: '" . $this->session->flashdata('flash') . "' });";
