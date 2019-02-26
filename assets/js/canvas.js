@@ -197,8 +197,6 @@ $(document).ready(function(){
             selectBox.strokeColor = '#80C2F4';
             selectBox.strokeWidth = 1;
             selectBox.name = 'selectbox';
-
-
         }
     }
 
