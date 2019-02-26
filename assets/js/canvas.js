@@ -198,7 +198,7 @@ $(document).ready(function(){
             selectBox.strokeWidth = 1;
             selectBox.name = 'selectbox';
 
-            
+
         }
     }
 

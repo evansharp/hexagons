@@ -31,8 +31,6 @@ $(document).ready(function(){
         }
     });
 
-    
-
     //we are loading a canvas based on URL hash
     //a JSON serialization of the canvas is in canvasData
     if( canvasData ){
@@ -139,7 +137,6 @@ $(document).ready(function(){
         });
     });
 
-
     //duplicate button
     $('#duplicate_button').click(function(e){
         e.preventDefault();
@@ -189,18 +186,18 @@ $(document).ready(function(){
         hexagon.name = 'hexbody';
 
         var colorPath = 'M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9c.83 0 1.5-.67 1.5-1.5 0-.39-.15-.74-.39-1.01-.23-.26-.38-.61-.38-.99 0-.83.67-1.5 1.5-1.5H16c2.76 0 5-2.24 5-5 0-4.42-4.03-8-9-8zm-5.5 9c-.83 0-1.5-.67-1.5-1.5S5.67 9 6.5 9 8 9.67 8 10.5 7.33 12 6.5 12zm3-4C8.67 8 8 7.33 8 6.5S8.67 5 9.5 5s1.5.67 1.5 1.5S10.33 8 9.5 8zm5 0c-.83 0-1.5-.67-1.5-1.5S13.67 5 14.5 5s1.5.67 1.5 1.5S15.33 8 14.5 8zm3 4c-.83 0-1.5-.67-1.5-1.5S16.67 9 17.5 9s1.5.67 1.5 1.5-.67 1.5-1.5 1.5';
-        var colorControl = new paper.Path(colorPath);
+        var colorControl = new paper.CompoundPath(colorPath);
         colorControl.fillColor = init_color;
         colorControl.position = new paper.Point(180, 32);
         colorControl.name = 'colorControl';
 
 
-        var delControl = new paper.Path('M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z');
+        var delControl = new paper.CompoundPath('M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z');
         delControl.fillColor = init_color;
         delControl.position = new paper.Point(200, 32);
         delControl.name = 'delControl';
 
-        var textControl = new paper.Path('M2.5 4v3h5v12h3V7h5V4h-13zm19 5h-9v3h3v7h3v-7h3V9z');
+        var textControl = new paper.CompoundPath('M2.5 4v3h5v12h3V7h5V4h-13zm19 5h-9v3h3v7h3v-7h3V9z');
         textControl.fillColor = init_color;
         textControl.position = new paper.Point(220, 32);
         textControl.name = 'textControl';
@@ -242,7 +239,6 @@ $(document).ready(function(){
             var hexGroup = paper.project.getItem( {id: parseInt(targetId) } );
             hexGroup.children['hexbody'].fillColor = '#' + picked;
             paper.view.draw();
-
         });
     });
 
