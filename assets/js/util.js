@@ -29,8 +29,12 @@ function getIntersections(path1, path2) {
 // make sure not to over-write a hash-labeled canvas sent from the server already
 if( sessionStorage.getItem("canvasData") && !canvasData ){
     var canvasData = sessionStorage.getItem("canvasData");
+    $('#formation_title').children('span').text( sessionStorage.getItem("canvasTitle") )
     console.log('loaded from sessionStorage');
 }else if(!canvasData){
     //init a new session without loading anything
     var canvasData = false;
+}
+if( sessionStorage.getItem('formationURL') ){
+    window.history.replaceState(null, "Formation Loaded", 'formation/' + sessionStorage.getItem('formationURL'));
 }

@@ -11,6 +11,8 @@ $(document).ready(function(){
     var canvas = document.getElementById('c');
     paper.setup(canvas);
 
+    
+
     zoomTool = new paper.Tool();
         zoomTool.zoomFactor = 1.1;
         zoomTool.moveFactor = 0.05;

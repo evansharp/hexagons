@@ -75,13 +75,23 @@ $(document).ready(function(){
 
     // save canvas on client when logging-in so work is not lost
     $('#loginlink').on("click", function (e) {
+        $('#loading_modal').modal('open');
+
+        var canvasid = window.location.pathname.split('?')[0].split('/').filter(function (i) { return i !== ""}).slice(-1)[0];
+
         sessionStorage.setItem('canvasData', paper.project.exportJSON());
+        sessionStorage.setItem('canvasTitle', $('#formation_title').children('span').text() );
+        if( canvasid != "hexagons"){
+            sessionStorage.setItem('formationURL', canvasid);
+        }
     });
 
 
     //save button
     $('#save_button').click(function(e){
         e.preventDefault();
+        $('#loading_modal').modal('open');
+
         var canvasid = window.location.pathname.split('?')[0].split('/').filter(function (i) { return i !== ""}).slice(-1)[0];
 
         if( canvasid == "hexagons"){
@@ -155,6 +165,7 @@ $(document).ready(function(){
     //duplicate button
     $('#duplicate_button').click(function(e){
         e.preventDefault();
+        $('#loading_modal').modal('open');
         var canvasid = window.location.pathname.split('?')[0].split('/').filter(function (i) { return i !== ""}).slice(-1)[0];
 
         if( canvasid == "hexagons"){
@@ -273,4 +284,6 @@ $(document).ready(function(){
     window.onbeforeunload = function(){
         //return 'Are you sure you want to leave this formation without saving?';
     };
+
+
 });
