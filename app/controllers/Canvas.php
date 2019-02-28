@@ -19,11 +19,15 @@ class Canvas extends MY_Controller{
     	$this->load->view('template', $template_data);
 	}
 
-	public function save( $do_output = true){
+	public function save( $do_output = true, $is_duplicate = false){
 		$user_id = $_POST['user_id'];
 		$canvas_id = $_POST['canvas_id'];
 		$canvas_data = $_POST['canvas_data'];
 		$title = $_POST['title'];
+
+		if($is_duplicate){
+			$title = $title . ' (copy)';
+		}
 
 		if( $do_output ){
 			echo json_encode( $this->cm->save_canvas( $user_id, $canvas_id, $canvas_data, $title ) );
@@ -40,7 +44,7 @@ class Canvas extends MY_Controller{
 	}
 
 	public function duplicate(){
-		$this->save( false );
+		$this->save( false, true );
 
 		$user_id = $_POST['user_id'];
 		$canvas_id = '';	//empty id will trigger a new id to be assigned when saved

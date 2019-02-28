@@ -29,7 +29,7 @@
                                 <li><a href="<?php echo base_url();?>">New</a></li>
                                 <li><a href="" id="save_button">Save</a></li>
                                 <li><a href="" id="delete_button">Delete</a></li>
-                                <li><a href="" id="duplicate_button">Duplicate</a></li>
+                                <li><a href="" id="duplicate_button">Make a Copy</a></li>
                             <?php elseif( isset($user_area) ): ?>
                                 <li><a href="<?php echo base_url();?>">New Formation</a></li>
                             <?php endif; ?>
