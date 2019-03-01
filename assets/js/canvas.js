@@ -11,8 +11,6 @@ $(document).ready(function(){
     var canvas = document.getElementById('c');
     paper.setup(canvas);
 
-    
-
     zoomTool = new paper.Tool();
         zoomTool.zoomFactor = 1.1;
         zoomTool.moveFactor = 0.05;
@@ -57,9 +55,7 @@ $(document).ready(function(){
 
         if (!hitResult){
             //hide controls
-            var groups = paper.project.getItems({
-                name: 'hexgroup'
-            });
+            var groups = paper.project.getItems({ name: 'hexgroup' });
             if( groups ){
                 for(var f = 0; f < groups.length; f++){
                     var hidecolor = groups[f].children['hexbody'].fillColor;
@@ -109,7 +105,7 @@ $(document).ready(function(){
     		targetHexGroup = hitResult.item.parent;
             paper.project.activeLayer.addChild( targetHexGroup );
 
-            //do the drag ... on the hex group!
+            //do the drag on the hex group
             targetHexGroup.position = event.point;
             //and the colorwheel
             $('.colorwheel[data-hex-id="' + hitResult.item.parent.id + '"]').css({
@@ -199,6 +195,16 @@ $(document).ready(function(){
             selectBox.strokeColor = '#80C2F4';
             selectBox.strokeWidth = 1;
             selectBox.name = 'selectbox';
+
+
+        }
+    }
+    selectTool.onMouseUp = function(event){
+        var boxes = paper.project.getItems({ name: 'selectbox' });
+        if( boxes ){
+            for(var f = 0; f < boxes.length; f++){
+                boxes[f].remove();
+            }
         }
     }
 

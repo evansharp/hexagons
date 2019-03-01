@@ -264,6 +264,10 @@ $(document).ready(function(){
             //set hex color to picked color
             var hexGroup = paper.project.getItem( {id: parseInt(targetId) } );
             hexGroup.children['hexbody'].fillColor = '#' + picked;
+            hexGroup.children['colorControl'].fillColor = '#' + picked;
+            hexGroup.children['delControl'].fillColor = '#' + picked;
+            hexGroup.children['textControl'].fillColor = '#' + picked;
+
             paper.view.draw();
         });
     });
