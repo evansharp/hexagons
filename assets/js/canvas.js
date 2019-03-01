@@ -73,7 +73,7 @@ $(document).ready(function(){
             return;
         }
 
-        if (hitResult) {
+        if (hitResult && !event.modifiers.shift) {
             hexTool.activate();
             //show controls
             hexGroup = hitResult.item.parent;
