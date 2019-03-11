@@ -86,7 +86,7 @@
             </div>
         </div>
 
-        <div id="about_modal" class="modal">
+        <div id="about_modal" class="modal modal-fixed-footer">
             <div class="modal-content">
 
             </div>
@@ -95,7 +95,7 @@
             </div>
         </div>
 
-        <div id="policy_modal" class="modal">
+        <div id="policy_modal" class="modal modal-fixed-footer">
             <div class="modal-content">
 
             </div>
