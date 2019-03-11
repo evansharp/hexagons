@@ -1,6 +1,5 @@
 paper.install(window);
-var zoomTool, hexTool, panTool, selectTool;
-var selectionGroup, selectionBounds;
+var zoomTool, hexTool, panTool, selectTool, selectionGroup;
 
 var hitTestOptions_drag = {
     segments: false,
@@ -32,16 +31,6 @@ var hitTestOptions_click = {
 
     }
 };
-var hitTestOptions_multigroup = {
-    segments: false,
-    stroke: false,
-    fill: true,
-    tolerance: 5,
-    match: function( t ){
-        // only allow matching hexes in the selection group
-        return t.item.data.multiselected;
-    }
-};
 
 function highlight_selected( hexgroup, yepnope ){
     if(yepnope){
@@ -56,12 +45,6 @@ function update_selectionGroup(){
         paper.project.activeLayer.addChild( preserve[i] );
     }
     selectionGroup.addChildren( selectTool.selected );
-
-    selectionBounds.removeSegments();
-    if(selectionGroup.children.length > 0 ){
-        selectionBounds.addSegments(selectionGroup.bounds);
-        selectionBounds.strokeWidth = 1;
-    }
 }
 
 
@@ -84,12 +67,6 @@ $(document).ready(function(){
 
     selectionGroup = new paper.Group();
     selectionGroup.name = 'selectionGroup';
-
-    selectionBounds = new Path.Rectangle(selectionGroup.bounds);
-    selectionBounds.name = 'selectionBounds';
-    selectionBounds.strokeColor = 'aqua';
-    selectionBounds.strokeWidth = 1;
-
 
     //select hexes and appropriate tool when hovering
     view.onMouseMove = function(event) {
@@ -248,7 +225,7 @@ $(document).ready(function(){
         }
     };
     // de-select multi-selected hexes with single click on blank canvas
-    view.onClick = function(event){
+    view.onMouseDown = function(event){
         if (!event.modifiers.shift) {
             var hitResult = paper.project.hitTest(event.point, hitTestOptions_drag); //use dragOptions so controls are exclude
             //hit test only succeeds on blank canvas
