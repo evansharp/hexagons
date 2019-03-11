@@ -293,6 +293,9 @@ $(document).ready(function(){
         setCookie('instructions', 'true', 1);
     }
 
+    //beta callout
+    M.toast({html: "Hexagons is currently in Beta" });
+
     //warn user before leaving
     window.onbeforeunload = function(){
         //return 'Are you sure you want to leave this formation without saving?';

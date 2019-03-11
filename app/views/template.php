@@ -88,7 +88,7 @@
 
         <div id="about_modal" class="modal modal-fixed-footer">
             <div class="modal-content">
-
+                To do. See <a href="https://github.com/evansharp/hexagons">the github project</a>.
             </div>
             <div class="modal-footer">
                 <a href="#!" class="modal-close waves-effect waves-red btn-flat">Close</a>
@@ -97,7 +97,7 @@
 
         <div id="policy_modal" class="modal modal-fixed-footer">
             <div class="modal-content">
-
+                To do. See <a href="https://github.com/evansharp/hexagons">the github project</a>.
             </div>
             <div class="modal-footer">
                 <a href="#!" class="modal-close waves-effect waves-red btn-flat">Close</a>
@@ -112,6 +112,7 @@
 
         <script type="text/javascript">
             var baseurl = "<?php echo base_url();?>";
+
 
             <?php
                 //condiionally pass some data to js from the server
@@ -137,5 +138,13 @@
             <script src="<?php echo base_url();?>assets/js/canvas.js?v=<?php echo time();?>" type="text/javascript" canvas="c"></script>
             <script src="<?php echo base_url();?>assets/js/ui.js?v=<?php echo time();?>" type="text/javascript"></script>
         <?php endif; ?>
+
+        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-27327477-4"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'UA-27327477-4');
+        </script>
     </body>
 </html>
