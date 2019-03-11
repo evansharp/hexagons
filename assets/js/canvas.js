@@ -106,11 +106,12 @@ $(document).ready(function(){
             paper.project.activeLayer.addChild( targetHexGroup );
 
             //do the drag on the hex group
-            targetHexGroup.position = event.point;
+            targetHexGroup.position = targetHexGroup.position.add( event.point ).subtract( event.lastPoint );
+
             //and the colorwheel
             $('.colorwheel[data-hex-id="' + hitResult.item.parent.id + '"]').css({
-                "top" : (event.point.y - 50) + "px",
-                "left": (event.point.x - 90) + "px"
+                "top" : (targetHexGroup.position.y - 50) + "px",
+                "left": (targetHexGroup.position.x - 90) + "px"
             });
 
             //snap to others
