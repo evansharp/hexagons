@@ -70,7 +70,7 @@
                 <input placeholder="Title" id="edit_title_input" type="text">
             </div>
             <div class="modal-footer">
-                <a href="#!" class="modal-close waves-effect waves-green btn-flat">Set</a>
+                <a href="#!" class="modal-close waves-effect waves-red btn-flat">Set</a>
             </div>
         </div>
 
@@ -82,23 +82,25 @@
                 <span id="edit_label_id"></span>
             </div>
             <div class="modal-footer">
-                <a href="#!" class="modal-close waves-effect waves-green btn-flat">Set</a>
+                <a href="#!" class="modal-close waves-effect waves-red btn-flat">Set</a>
             </div>
         </div>
 
-        <div id="loader_modal" class="modal">
+        <div id="about_modal" class="modal">
             <div class="modal-content">
-                <div class="preloader-wrapper active">
-                    <div class="spinner-layer spinner-red-only">
-                      <div class="circle-clipper left">
-                        <div class="circle"></div>
-                      </div><div class="gap-patch">
-                        <div class="circle"></div>
-                      </div><div class="circle-clipper right">
-                        <div class="circle"></div>
-                      </div>
-                    </div>
-                 </div>
+
+            </div>
+            <div class="modal-footer">
+                <a href="#!" class="modal-close waves-effect waves-red btn-flat">Close</a>
+            </div>
+        </div>
+
+        <div id="policy_modal" class="modal">
+            <div class="modal-content">
+
+            </div>
+            <div class="modal-footer">
+                <a href="#!" class="modal-close waves-effect waves-red btn-flat">Close</a>
             </div>
         </div>
 

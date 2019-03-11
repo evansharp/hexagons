@@ -279,9 +279,17 @@ $(document).ready(function(){
         $('#title_modal').modal('open');
     });
 
+    //infomrational modals
+    $('#about_link').click(function(){
+        $('#about_modal').modal('open');
+    });
+    $('#policy_link').click(function(){
+        $('#policy_modal').modal('open');
+    });
+
     //give user instructions
     if( !getCookie('instructions') ){
-        M.toast({html: "ctrl + mousewheel to zoom. <br> alt + drag to pan." });
+        M.toast({html: "ctrl + mousewheel to zoom. <br> alt + drag to pan. <br> shift + click to select multiple" });
         setCookie('instructions', 'true', 1);
     }
 

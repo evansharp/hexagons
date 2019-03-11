@@ -113,3 +113,17 @@ h4{ font-size: 1.1rem; font-weight: 500;}
     text-decoration: none;
     font-style: normal;
 }
+#errata{
+    position: absolute;
+    left: 10px;
+    bottom: 3px;
+}
+#errata a{
+    font-size: 0.8em;
+}
+#errata a:link, #errata a:visited{
+    color: #222;
+}
+#errata a:hover{
+    color: #75E547;
+}

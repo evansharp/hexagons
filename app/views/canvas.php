@@ -9,3 +9,7 @@
     <i class="large material-icons">add</i></a>
   </a>
 </div>
+
+<div id="errata">
+    <a href="#" id="about_link">About</a> | <a href="#" id="policy_link">Policy</a>
+</div>
