@@ -1,6 +1,69 @@
-
 paper.install(window);
 var zoomTool, hexTool, panTool, selectTool;
+var selectionGroup, selectionBounds;
+
+var hitTestOptions_drag = {
+    segments: false,
+    stroke: false,
+    fill: true,
+    tolerance: 5,
+    match: function( t ){
+        // only allow mouseover hit on the hex's body, in order to exclude controls
+        if (t.item.name == 'hexbody'){
+            return true;
+        }else {
+            return false;
+        }
+
+    }
+};
+var hitTestOptions_click = {
+    segments: false,
+    stroke: false,
+    fill: true,
+    tolerance: 5,
+    match: function( t ){
+        // only allow click to hit on the controls
+        if (t.item.name == 'colorControl' || t.item.name == 'delControl' || t.item.name == 'textControl'){
+            return true;
+        }else {
+            return false;
+        }
+
+    }
+};
+var hitTestOptions_multigroup = {
+    segments: false,
+    stroke: false,
+    fill: true,
+    tolerance: 5,
+    match: function( t ){
+        // only allow matching hexes in the selection group
+        return t.item.data.multiselected;
+    }
+};
+
+function highlight_selected( hexgroup, yepnope ){
+    if(yepnope){
+        hexgroup.children['hexbody'].strokeWidth = 2;
+    }else{
+        hexgroup.children['hexbody'].strokeWidth = 0;
+    }
+}
+function update_selectionGroup(){
+    var preserve = selectionGroup.removeChildren()
+    for (var i = 0; i < preserve.length; i++) {
+        paper.project.activeLayer.addChild( preserve[i] );
+    }
+    selectionGroup.addChildren( selectTool.selected );
+
+    selectionBounds.removeSegments();
+    if(selectionGroup.children.length > 0 ){
+        selectionBounds.addSegments(selectionGroup.bounds);
+        selectionBounds.strokeWidth = 1;
+    }
+}
+
 
 $(document).ready(function(){
     $('#c').css({   'width'     : '100%',
@@ -17,37 +80,16 @@ $(document).ready(function(){
     panTool = new paper.Tool();
     hexTool = new paper.Tool();
     selectTool = new paper.Tool();
+        selectTool.selected = [];
 
-    var hitTestOptions_drag = {
-        segments: false,
-        stroke: false,
-        fill: true,
-        tolerance: 5,
-        match: function( t ){
-            // only allow mouseover hit on the hex's body, in order to exclude controls
-            if (t.item.name == 'hexbody'){
-                return true;
-            }else {
-                return false;
-            }
+    selectionGroup = new paper.Group();
+    selectionGroup.name = 'selectionGroup';
 
-        }
-    };
-    var hitTestOptions_click = {
-        segments: false,
-        stroke: false,
-        fill: true,
-        tolerance: 5,
-        match: function( t ){
-            // only allow click to hit on the controls
-            if (t.item.name == 'colorControl' || t.item.name == 'delControl' || t.item.name == 'textControl'){
-                return true;
-            }else {
-                return false;
-            }
+    selectionBounds = new Path.Rectangle(selectionGroup.bounds);
+    selectionBounds.name = 'selectionBounds';
+    selectionBounds.strokeColor = 'aqua';
+    selectionBounds.strokeWidth = 1;
 
-        }
-    };
 
     //select hexes and appropriate tool when hovering
     view.onMouseMove = function(event) {
@@ -62,8 +104,12 @@ $(document).ready(function(){
                     groups[f].children['colorControl'].fillColor = hidecolor;
                     groups[f].children['delControl'].fillColor = hidecolor;
                     groups[f].children['textControl'].fillColor = hidecolor;
-                    //unstroke (hover indicator) Hexagons
-                    groups[f].children['hexbody'].strokeWidth = 0;
+
+                    //unstroke (hover indicator) Hexagons if no multiselect
+                    if( !groups[f].data.multiselected ){
+                        highlight_selected( groups[f], false );
+                    }
+
                 }
             }
             //reset any styled cursors, unless a mod key is down
@@ -82,7 +128,8 @@ $(document).ready(function(){
             hexGroup.children['textControl'].fillColor = '#222';
 
             //highlight the hexbody with a stroke
-            hitResult.item.strokeWidth = 2;
+            highlight_selected(hexGroup, true);
+
             //make the cursor make sense over the hex body
             $('body').css('cursor', 'move');
         }
@@ -103,10 +150,17 @@ $(document).ready(function(){
 
         if (hitResult) {
     		targetHexGroup = hitResult.item.parent;
-            paper.project.activeLayer.addChild( targetHexGroup );
 
-            //do the drag on the hex group
-            targetHexGroup.position = targetHexGroup.position.add( event.point ).subtract( event.lastPoint );
+
+            //do the drag on the individual hex group or selectionGroup
+            if( selectionGroup.children.length > 0 && selectionGroup.isAncestor( targetHexGroup ) ){
+                paper.project.activeLayer.addChild( selectionGroup );
+                selectionGroup.position = selectionGroup.position.add( event.point ).subtract( event.lastPoint );
+
+            }else{
+                paper.project.activeLayer.addChild( targetHexGroup );
+                targetHexGroup.position = targetHexGroup.position.add( event.point ).subtract( event.lastPoint );
+            }
 
             //and the colorwheel
             $('.colorwheel[data-hex-id="' + hitResult.item.parent.id + '"]').css({
@@ -135,18 +189,30 @@ $(document).ready(function(){
             //     }
             // }
         }
+        // var hitResult = paper.project.hitTest(event.point, hitTestOptions_multigroup);
+        // if (hitResult) {
+    	// 	group = hitResult.item.parent;
+        //
+        //     paper.project.activeLayer.addChild( group );
+        //
+        //     //do the drag on the hex group
+        //     group.position = group.position.add( event.point ).subtract( event.lastPoint );
+        // }
     };
 
-    //toggle tools with mod keys
+    //------------- toggle tools with mod keys -----------------------
     //change cursor on alt key for pan & zoom
     $(window).bind('keydown', function(e){
         if(e.which == 18){
+            //if alt, we're panning
             $('body').css('cursor', 'grab');
             panTool.activate();
         }else if(e.which == 17){
+            //if ctrl, we're zooming
             $('body').css('cursor', 'zoom-in');
             zoomTool.activate();
         }else if(e.which == 16){
+            //if shift, we're multi-selcting
             selectTool.activate();
         }
     });
@@ -156,7 +222,7 @@ $(document).ready(function(){
         }
     });
 
-    // pan tool is activated by the alt key already
+    // ------------ pan tool is activated by the alt key already -----------
     panTool.onMouseDrag = function(event){
         if (event.modifiers.alt){
             var offset = event.downPoint.subtract( event.point );
@@ -176,20 +242,64 @@ $(document).ready(function(){
         }
     };
     // little helper to re-center the canvas
-    view.onDoubleClick = function(event) {
+    view.onDoubleClick = function(event){
         if (event.modifiers.alt) {
-            view.center = view.size.divide(2);
+            view.center = view.size.divide( 2 );
         }
     };
+    // de-select multi-selected hexes with single click on blank canvas
+    view.onClick = function(event){
+        if (!event.modifiers.shift) {
+            var hitResult = paper.project.hitTest(event.point, hitTestOptions_drag); //use dragOptions so controls are exclude
+            //hit test only succeeds on blank canvas
+            if(!hitResult){
+                var groups = paper.project.getItems({ name: 'hexgroup' });
+                if( groups ){
+                    for(var f = 0; f < groups.length; f++){
+                        groups[f].data.multiselected = false;
+                        highlight_selected(groups[f], false);
 
-    //draw selection box
-    selectTool.onMouseDown = function(event){
-        if (event.modifiers.shift) {
+                        //empty tool prop and selectionGroup
+                        selectTool.selected = [];
+                        update_selectionGroup();
 
+                    }
+                }
+            }
         }
     }
+
+    // do individual hex multi-select
+    selectTool.onMouseDown = function(event){
+        if (event.modifiers.shift) {
+            var hitResult = paper.project.hitTest(event.point, hitTestOptions_drag); //use dragOptions so controls are excluded
+            if(hitResult){
+                var targetHexGroup = hitResult.item.parent;
+                if( targetHexGroup.data.multiselected ){
+                    targetHexGroup.data.multiselected = false;
+                    selectTool.selected = selectTool.selected.filter(function(v, i, arr){
+                        return v.data.multiselected == true;
+                    });
+                    highlight_selected(targetHexGroup, false);
+                }else{
+                    targetHexGroup.data.multiselected = true;
+                    selectTool.selected.push( targetHexGroup );
+                    highlight_selected(targetHexGroup, true);
+                }
+            }
+
+
+            //update members against tool property
+            update_selectionGroup();
+
+            console.log(selectionGroup.children)
+        }
+    }
+
     selectTool.onMouseDrag = function(event){
         if (event.modifiers.shift) {
+
+            //draw selection box
             var startCorner = event.downPoint;
             var selectBox = new paper.Path.Rectangle(startCorner, 1);
             selectBox.fillColor = '#e9e9ff',

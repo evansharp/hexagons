@@ -241,6 +241,7 @@ $(document).ready(function(){
         var hexGroup = new paper.Group( [hexagon, colorControl, delControl, textControl, label] );
         hexGroup.position = view.center;
         hexGroup.name = "hexgroup";
+        hexGroup.data.multiselected = false;
 
     	paper.view.draw();
 
