@@ -34,7 +34,7 @@ var hitTestOptions_click = {
 
 function highlight_selected( hexgroup, yepnope ){
     if(yepnope){
-        hexgroup.children['hexbody'].strokeWidth = 2;
+        hexgroup.children['hexbody'].strokeWidth = 1;
     }else{
         hexgroup.children['hexbody'].strokeWidth = 0;
     }
