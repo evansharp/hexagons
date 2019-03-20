@@ -97,7 +97,7 @@
 
         <div id="policy_modal" class="modal modal-fixed-footer">
             <div class="modal-content">
-                To do. See <a href="https://github.com/evansharp/hexagons">the github project</a>.
+                <?php include('privacypolicy.php'); ?>
             </div>
             <div class="modal-footer">
                 <a href="#!" class="modal-close waves-effect waves-red btn-flat">Close</a>
