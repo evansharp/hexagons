@@ -1,3 +1,10 @@
+// toast dismissal button function
+function dismissToast(e){
+    var toastEl = $(e.target).parent('.toast').get(0);
+    var toastInstance = M.Toast.getInstance( toastEl );
+    toastInstance.dismiss();
+};
+
 $(document).ready(function(){
     //init mterialize components
     M.AutoInit();
@@ -21,7 +28,8 @@ $(document).ready(function(){
             paper.project.getItems({ id: parseInt( $('#edit_label_id').html() ) })[0].content = $('#label_modal input').val();
         }
     });
-    //show a warning when char limit is reached
+
+    //show a warning when hex label char limit is reached
     $('#label_modal input').keyup(function(){
         var num_char = $(this).val().length;
         if(num_char == 25){
@@ -288,7 +296,10 @@ $(document).ready(function(){
 
     //give user instructions
     if( !getCookie('instructions') ){
-        M.toast({html: "ctrl + mousewheel to zoom. <br> alt + drag to pan. <br> shift + click to select multiple" });
+        var htmlstr = 'ctrl + mousewheel to zoom. <br> alt + drag to pan. <br> shift + click to select multiple <button class="btn-flat toast-action" onclick="dismissToast(event);">dismiss</button>';
+        M.toast({   html: htmlstr,
+                    displayLength: 60 * 60 * 5 //5 minutes
+                });
         setCookie('instructions', 'true', 1);
     }
 
