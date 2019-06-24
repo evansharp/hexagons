@@ -72,6 +72,7 @@ $(document).ready(function(){
     view.onMouseMove = function(event) {
         var hitResult = paper.project.hitTest(event.point, hitTestOptions_drag);
 
+
         if (!hitResult){
             //hide controls
             var groups = paper.project.getItems({ name: 'hexgroup' });
@@ -100,9 +101,11 @@ $(document).ready(function(){
             hexTool.activate();
             //show controls
             hexGroup = hitResult.item.parent;
-            hexGroup.children['colorControl'].fillColor = '#222';
-            hexGroup.children['delControl'].fillColor = '#222';
-            hexGroup.children['textControl'].fillColor = '#222';
+            
+            var contrastyColour = getContrastyColour( hexGroup.children['hexbody'].fillColor.toCSS(true) );
+            hexGroup.children['colorControl'].fillColor = contrastyColour;
+            hexGroup.children['delControl'].fillColor = contrastyColour;
+            hexGroup.children['textControl'].fillColor = contrastyColour;
 
             //highlight the hexbody with a stroke
             highlight_selected(hexGroup, true);

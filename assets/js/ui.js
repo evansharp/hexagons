@@ -3,7 +3,32 @@ function dismissToast(e){
     var toastEl = $(e.target).parent('.toast').get(0);
     var toastInstance = M.Toast.getInstance( toastEl );
     toastInstance.dismiss();
-};
+}
+
+//init colour wheel function
+function colourWheelFunctionality( it ){
+    $(it).fadeOut(100); //hide colorwheel
+
+    var picked = $(it).colorwheel('value');
+    var targetId = $(it).attr('data-hex-id');
+
+
+    //set hex color to picked color
+    var hexGroup = paper.project.getItem( {id: parseInt(targetId) } );
+    hexGroup.children['hexbody'].fillColor = '#' + picked;
+
+
+    //set controls and text fillColor to a contrasty colour
+    var contrastyColour = getContrastyColour(picked);
+    console.log( contrastyColour );
+
+    hexGroup.children['colorControl'].fillColor = contrastyColour;
+    hexGroup.children['delControl'].fillColor = contrastyColour;
+    hexGroup.children['textControl'].fillColor = contrastyColour;
+    hexGroup.children['label'].fillColor = contrastyColour
+
+    paper.view.draw();
+}
 
 $(document).ready(function(){
     //init mterialize components
@@ -58,17 +83,9 @@ $(document).ready(function(){
         $('.colorwheel').colorwheel();
 
         //when a colour is picked and apply to target hex
-        $('.colorwheel').click(function(e){
+        $('.colorwheel').click( function(e){
             e.preventDefault();
-            $(this).fadeOut(100); //hide colorwheel
-
-            var picked = $(this).colorwheel('value');
-            var targetId = $(this).attr('data-hex-id');
-
-            //set hex color to picked color
-            var hexGroup = paper.project.getItem( {id: parseInt(targetId) } );
-            hexGroup.children['hexbody'].fillColor = '#' + picked;
-            paper.view.draw();
+            colourWheelFunctionality( $(this) );
         });
 
         //loaded from temp client session post-login, prompt user to save
@@ -264,19 +281,7 @@ $(document).ready(function(){
         //when a colour is picked and apply to target hex
         $('.colorwheel').click(function(e){
             e.preventDefault();
-            $(this).fadeOut(100); //hide colorwheel
-
-            var picked = $(this).colorwheel('value');
-            var targetId = $(this).attr('data-hex-id');
-
-            //set hex color to picked color
-            var hexGroup = paper.project.getItem( {id: parseInt(targetId) } );
-            hexGroup.children['hexbody'].fillColor = '#' + picked;
-            hexGroup.children['colorControl'].fillColor = '#' + picked;
-            hexGroup.children['delControl'].fillColor = '#' + picked;
-            hexGroup.children['textControl'].fillColor = '#' + picked;
-
-            paper.view.draw();
+            colourWheelFunctionality( $(this) );
         });
     });
 
