@@ -72,7 +72,6 @@ $(document).ready(function(){
     view.onMouseMove = function(event) {
         var hitResult = paper.project.hitTest(event.point, hitTestOptions_drag);
 
-
         if (!hitResult){
             //hide controls
             var groups = paper.project.getItems({ name: 'hexgroup' });
@@ -131,7 +130,6 @@ $(document).ready(function(){
         if (hitResult) {
     		targetHexGroup = hitResult.item.parent;
 
-
             //do the drag on the individual hex group or selectionGroup
             if( selectionGroup.children.length > 0 && selectionGroup.isAncestor( targetHexGroup ) ){
                 paper.project.activeLayer.addChild( selectionGroup );
@@ -169,15 +167,6 @@ $(document).ready(function(){
             //     }
             // }
         }
-        // var hitResult = paper.project.hitTest(event.point, hitTestOptions_multigroup);
-        // if (hitResult) {
-    	// 	group = hitResult.item.parent;
-        //
-        //     paper.project.activeLayer.addChild( group );
-        //
-        //     //do the drag on the hex group
-        //     group.position = group.position.add( event.point ).subtract( event.lastPoint );
-        // }
     };
 
     //------------- toggle tools with mod keys -----------------------
