@@ -100,7 +100,7 @@ $(document).ready(function(){
             hexTool.activate();
             //show controls
             hexGroup = hitResult.item.parent;
-            
+
             var contrastyColour = getContrastyColour( hexGroup.children['hexbody'].fillColor.toCSS(true) );
             hexGroup.children['colorControl'].fillColor = contrastyColour;
             hexGroup.children['delControl'].fillColor = contrastyColour;
@@ -329,7 +329,7 @@ $(document).ready(function(){
             }
         }
     });
-
+    
     // color wheel, delete, and label controls
     hexTool.onMouseUp = function(event){
         var hitResult = paper.project.hitTest(event.point, hitTestOptions_click);
