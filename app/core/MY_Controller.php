@@ -21,7 +21,7 @@ class MY_Controller extends CI_Controller {
 		$client->setApplicationName("Hexagons");
 		$client->setRedirectUri( $redirect_uri );
 		$client->setAccessType('offline');
-		$client->setApprovalPrompt('force');
+		// $client->setApprovalPrompt('force'); // force re-scope to get a refresh token each req
 
 		$client->addScope("https://www.googleapis.com/auth/userinfo.profile");
 		$client->addScope("https://www.googleapis.com/auth/userinfo.email");
