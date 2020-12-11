@@ -14,7 +14,6 @@
     </head>
 
     <body>
-        <?php //var_dump($_SESSION['googleProfile']); ?>
         <nav>
             <div class="nav-wrapper">
                 <a href="<?php echo base_url();?>" class="homelink">
@@ -43,8 +42,8 @@
                             </ul>
                             <a class="dropdown-trigger" href="#!" data-target="usermenu">
                                 <div class="valign-wrapper">
-                                    <img src="<?php echo $_SESSION['googleProfile']['picture']; ?>" alt="" class="user_img">
-                                    <?php echo $_SESSION['googleProfile']['givenName']; ?>
+                                    <img src="<?php echo $_SESSION['user']['google_avatar']; ?>" alt="" class="user_img">
+                                    <?php echo $_SESSION['user']['name']; ?>
                                 </div>
                             </a>
                         </li>
